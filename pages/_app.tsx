@@ -1,8 +1,14 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { globalStyles } from "../styles/globals";
+import storeWrapper from "../src/redux/createStore";
+import AppContainer from "../src/containers/App";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+const App = ({ Component, pageProps }: any) => (
+  <>
+    {globalStyles}
+    <AppContainer>
+      <Component {...pageProps} />
+    </AppContainer>
+  </>
+);
 
-export default MyApp
+export default storeWrapper.withRedux(App);
