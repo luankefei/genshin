@@ -44,7 +44,7 @@ const Modal: FC<ModalProps> = (props) => {
     open ? (
       <Wrapper>
         <CloseButton onClick={onClose}>
-          <img src="/images/close.png" alt="关闭" />
+          <img src="/static/icons/close.png" alt="关闭" />
         </CloseButton>
         <Container>
           <div>{props.children}</div>
