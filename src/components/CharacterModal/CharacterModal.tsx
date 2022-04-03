@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 // import set from 'lodash/set'
 
@@ -57,15 +57,15 @@ const CharacterModal = (props: IProps) => {
   const [modalCharacter, setModalCharacter] = useState(character);
   const [elementFilter, setElementFilter] = useState("");
 
-  useEffect(() => {
-    // console.log("useEffect", isOpen);
-    setVisible(isOpen);
-  }, [isOpen]);
+  // useEffect(() => {
+  //   // console.log("useEffect", isOpen);
+  //   setVisible(isOpen);
+  // }, [isOpen]);
 
-  useEffect(() => {
-    // console.log("----------------------------------- character change", character);
-    setModalCharacter(character);
-  }, [character?.weapon]);
+  // useEffect(() => {
+  //   // console.log("----------------------------------- character change", character);
+  //   setModalCharacter(character);
+  // }, [character?.weapon]);
 
   const onModalClose = () => {
     // setVisible(false);
@@ -74,102 +74,102 @@ const CharacterModal = (props: IProps) => {
     onClose();
   };
 
-  // 确认修改
-  const onSubmit = () => {
-    // console.log("onSubmit", character);
-    if (modalCharacter) {
-      onClose("onsubmit", modalCharacter);
-    }
-  };
+  // // 确认修改
+  // const onSubmit = () => {
+  //   // console.log("onSubmit", character);
+  //   if (modalCharacter) {
+  //     onClose("onsubmit", modalCharacter);
+  //   }
+  // };
 
-  // 修改角色字段
-  const onCharacterChange = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
-    if (!modalCharacter) return;
-    baseSet(modalCharacter, key, e.target.value);
-  };
+  // // 修改角色字段
+  // const onCharacterChange = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
+  //   if (!modalCharacter) return;
+  //   baseSet(modalCharacter, key, e.target.value);
+  // };
 
-  const showWeaponModal = () => {
-    onClose("showWeapon", modalCharacter || undefined);
-    // console.log("showWeaponModal");
-    // setWeaponModalVisible(true);
+  // const showWeaponModal = () => {
+  //   onClose("showWeapon", modalCharacter || undefined);
+  //   // console.log("showWeaponModal");
+  //   // setWeaponModalVisible(true);
 
-    // 临时关闭角色窗口
-    // setVisible(false);
-  };
+  //   // 临时关闭角色窗口
+  //   // setVisible(false);
+  // };
 
-  const showArtifactModal = (artifact: string) => () => {
-    onClose("showArtifact", modalCharacter || undefined);
-    console.log("showArtifact", artifact);
-  };
+  // const showArtifactModal = (artifact: string) => () => {
+  //   onClose("showArtifact", modalCharacter || undefined);
+  //   console.log("showArtifact", artifact);
+  // };
 
-  const clickModalCharacter = (name: string, index: number) => {
-    const obj: ICharacter = JSON.parse(JSON.stringify(DEFAULT_CHARACTER_DETAIL));
+  // const clickModalCharacter = (name: string, index: number) => {
+  //   const obj: ICharacter = JSON.parse(JSON.stringify(DEFAULT_CHARACTER_DETAIL));
 
-    obj.enName = name;
-    obj.name = characterMap[name].name;
-    obj.weaponType = characterMap[name].weapon_type.toLowerCase();
+  //   obj.enName = name;
+  //   obj.name = characterMap[name].name;
+  //   obj.weaponType = characterMap[name].weapon_type.toLowerCase();
 
-    const recommendWeaponName = Object.keys(weaponMap).find(
-      (key) => weaponMap[key].type.toLowerCase() === obj.weaponType
-    );
-    obj.weapon = { ...DEFAULT_WEAPON_DETAIL, ...weaponMap[recommendWeaponName as string] };
-    obj.weapon.id = obj.weapon.id.replaceAll("_", "-");
+  //   const recommendWeaponName = Object.keys(weaponMap).find(
+  //     (key) => weaponMap[key].type.toLowerCase() === obj.weaponType
+  //   );
+  //   obj.weapon = { ...DEFAULT_WEAPON_DETAIL, ...weaponMap[recommendWeaponName as string] };
+  //   obj.weapon.id = obj.weapon.id.replaceAll("_", "-");
 
-    console.log(weaponMap[recommendWeaponName as string], obj.weaponType, weaponMap);
+  //   console.log(weaponMap[recommendWeaponName as string], obj.weaponType, weaponMap);
 
-    setModalCharacter(obj);
+  //   setModalCharacter(obj);
 
-    // 临时保存，将character带回上层，注意这里不会触发关闭
-    onClose("onselect", obj);
+  //   // 临时保存，将character带回上层，注意这里不会触发关闭
+  //   onClose("onselect", obj);
 
-    console.log("clickModalCharacter", name, index);
-  };
+  //   console.log("clickModalCharacter", name, index);
+  // };
 
-  const renderCharacterList = () => {
-    let characterList = characters;
+  // const renderCharacterList = () => {
+  //   let characterList = characters;
 
-    if (elementFilter)
-      characterList = characters.filter((name: string) => {
-        const vision = (characterMap[name]?.vision || "").toLowerCase();
-        return vision === elementFilter;
-      });
+  //   if (elementFilter)
+  //     characterList = characters.filter((name: string) => {
+  //       const vision = (characterMap[name]?.vision || "").toLowerCase();
+  //       return vision === elementFilter;
+  //     });
 
-    return characterList.map((c: string, index: number) => {
-      const avatar = `${process.env.PUBLIC_URL}/characters/${c}/icon`;
-      const bgClassName = "character-bg-" + characterMap[c]?.rarity || "4";
+  //   return characterList.map((c: string, index: number) => {
+  //     const avatar = `/static/characters/${c}/icon`;
+  //     const bgClassName = "character-bg-" + characterMap[c]?.rarity || "4";
 
-      return (
-        <li
-          className={modalCharacter?.name === c ? "selected" : undefined}
-          key={c}
-          onClick={() => clickModalCharacter(c, index)}
-        >
-          <div className={bgClassName}>
-            <img alt={c} src={avatar} />
-          </div>
-          <span>{c}</span>
-        </li>
-      );
-    });
-  };
+  //     return (
+  //       <li
+  //         className={modalCharacter?.name === c ? "selected" : undefined}
+  //         key={c}
+  //         onClick={() => clickModalCharacter(c, index)}
+  //       >
+  //         <div className={bgClassName}>
+  //           <img alt={c} src={avatar} />
+  //         </div>
+  //         <span>{c}</span>
+  //       </li>
+  //     );
+  //   });
+  // };
 
-  const renderArtifactList = () => {
-    return modalCharacter?.artifacts.list.map((item) => {
-      const suffix = modalCharacter?.artifacts.list.length === 1 ? "[4]" : "[2]";
-      const name = artifactMap[item]?.data?.zh.name;
-      return (
-        <dd className="artifact" key={item} onClick={showArtifactModal(item)}>
-          <img className="icon" src={`/artifacts/${item}/circlet-of-logos`} alt={item} />
-          <span>{name}</span>
-          <span>{suffix}</span>
-        </dd>
-      );
-    });
-  };
+  // const renderArtifactList = () => {
+  //   return modalCharacter?.artifacts.list.map((item) => {
+  //     const suffix = modalCharacter?.artifacts.list.length === 1 ? "[4]" : "[2]";
+  //     const name = artifactMap[item]?.data?.zh.name;
+  //     return (
+  //       <dd className="artifact" key={item} onClick={showArtifactModal(item)}>
+  //         <img className="icon" src={`/static/artifacts/${item}/circlet-of-logos`} alt={item} />
+  //         <span>{name}</span>
+  //         <span>{suffix}</span>
+  //       </dd>
+  //     );
+  //   });
+  // };
 
   return (
     <Modal visible={visible} onClose={onModalClose}>
-      <Container>
+      {/* <Container>
         {!modalCharacter ? (
           <>
             <ElementFilter />
@@ -187,7 +187,7 @@ const CharacterModal = (props: IProps) => {
                 backgroundImage: `url(https://seelie.inmagi.com/img/characters/bg/${modalCharacter.enName}.png)`,
               }}
             >
-              <img src={`/characters/${modalCharacter.enName}/icon`} alt={modalCharacter.enName} />
+              <img src={`/static/characters/${modalCharacter.enName}/icon`} alt={modalCharacter.enName} />
               <span>{modalCharacter.name}</span>
             </div>
             <Item>
@@ -242,7 +242,7 @@ const CharacterModal = (props: IProps) => {
             </Item>
           </CharacterDetail>
         ) : null}
-      </Container>
+      </Container> */}
     </Modal>
   );
 };

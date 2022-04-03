@@ -142,7 +142,7 @@ const Role = () => {
         <tr key={c.enName}>
           <td width="7%">{index + 1}</td>
           <td width="20%" className="left middle" onClick={onTableCellClick(c, "name")}>
-            <img className="icon" src={`/characters/${c.enName}/icon`} alt={c.enName} />
+            <img className="icon" src={`/static/characters/${c.enName}/icon`} alt={c.enName} />
             <span>{c.name}</span>
           </td>
           <td width="8%" onClick={onTableCellClick(c, "level")}>
@@ -212,8 +212,8 @@ const Role = () => {
         </div>
       </Container>
       <CharacterModal isOpen={characterModalVisible} character={character} onClose={onCharacterModalClose} />
-      <WeaponModal isOpen={weaponModalVisible} character={character} onClose={onWeaponModalClose} />
-      <ArtifactModal isOpen={artifactModalVisible} character={character} onClose={onArtifactModalClose} />
+      {/* <WeaponModal isOpen={weaponModalVisible} character={character} onClose={onWeaponModalClose} />
+      <ArtifactModal isOpen={artifactModalVisible} character={character} onClose={onArtifactModalClose} /> */}
     </Page>
   );
 };

@@ -1,33 +1,33 @@
-import { Component, ErrorInfo } from 'react'
+import { Component, ErrorInfo } from "react";
 
-import { ErrorPage } from './error.style'
+import { ErrorPage } from "./error.style";
 
 type TProps = {
-  children: any
-}
+  children: any;
+};
 
 type TState = {
-  hasError: boolean
-  errorInfo: ErrorInfo
-}
+  hasError: boolean;
+  errorInfo: ErrorInfo;
+};
 
 class ErrorBoundray extends Component<TProps, TState> {
   constructor(props: TProps) {
-    super(props)
+    super(props);
 
     this.state = {
       hasError: false,
-      errorInfo: null
-    }
+      errorInfo: null,
+    };
   }
 
   componentDidCatch(error: globalThis.Error, errorInfo: ErrorInfo): void {
-    console.log('error page', error)
+    console.log("error page", error);
 
     this.setState({
       errorInfo,
-      hasError: true
-    })
+      hasError: true,
+    });
 
     // log.send('error_boundary', {
     //   error,
@@ -38,19 +38,19 @@ class ErrorBoundray extends Component<TProps, TState> {
   }
 
   render() {
-    const { hasError, errorInfo } = this.state
-    const { children } = this.props
+    const { hasError, errorInfo } = this.state;
+    const { children } = this.props;
 
     return hasError ? (
       <ErrorPage>
         <div>{errorInfo.componentStack}</div>
-        <img alt="qrcode" src="../../static/sign-v2/images/youjiang/gzh_qrcode.png" />
+        <img alt="qrcode" src="/static/icons/close.png" />
         <div>好像出了点问题，页面空空如也</div>
       </ErrorPage>
     ) : (
       children
-    )
+    );
   }
 }
 
-export default ErrorBoundray
+export default ErrorBoundray;

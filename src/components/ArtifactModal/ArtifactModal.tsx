@@ -34,7 +34,7 @@ const ArtifactModal = (props: IProps) => {
               backgroundImage: `url(https://seelie.inmagi.com/img/characters/bg/${character && character.enName}.png)`,
             }}
           >
-            <img className="icon" src="/weapons/kaguras-verity/icon" alt="kaguras-verity" />
+            <img className="icon" src="/static/weapons/kaguras-verity/icon" alt="kaguras-verity" />
             <span>神乐之真意</span>
           </div>
           <div>
