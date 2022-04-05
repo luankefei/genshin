@@ -1,10 +1,14 @@
 import React, { FC, useState, useEffect } from "react";
-import type { ReactNode } from "react";
+import type { ReactNode, ReactElement } from "react";
 // import { canUseDOM } from "../../utils/safeHTMLElement";
 
 type IProps = {
-  fallback: ReactNode;
-  children: ReactNode;
+  fallback: ReactElement;
+  children: ReactElement;
+};
+
+type IState = {
+  nodes: ReactNode;
 };
 
 export const cloneElement = (child, props) => {
@@ -18,15 +22,14 @@ export const cloneElement = (child, props) => {
 
 const SSRSuspense: FC<IProps> = (props) => {
   const { children, fallback } = props;
-  // const [ssrState, setSSRState] = useState(typeof window === "undefined" || !canUseDOM);
-  const [nodes, setNodes] = useState(fallback);
+  const [ssrState, setSSRState] = useState(true);
 
   useEffect(() => {
-    setNodes(childrenWithProps);
+    setSSRState(false);
   }, []);
 
-  const childrenWithProps = React.Children.map(children, (child) => cloneElement(child, props));
-  return <>{nodes}</>;
+  // const childrenWithProps = React.Children.map(children, (child) => cloneElement(child, props));
+  return ssrState ? fallback : children;
 };
 
 export default SSRSuspense;

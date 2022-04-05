@@ -17,7 +17,9 @@ export type ModalProps = {
 let node: HTMLElement | null = null;
 
 const ModalPortal: FC<ModalProps> = (props) => {
+  // console.log("ModalPortal ==============", props, props.visible);
   const { visible } = props;
+
   const [open, setOpen] = useState(visible);
 
   useEffect(() => {
@@ -30,7 +32,8 @@ const ModalPortal: FC<ModalProps> = (props) => {
 
   useEffect(() => {
     if (visible !== open) setOpen(visible);
-  }, [visible]);
+    // console.log("ModalPortal ============== useEffect", visible);
+  }, [visible, open]);
 
   const onClose = () => {
     setOpen(false);

@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-// import ModalPortal from "../ModalPortal";
+import ModalPortal from "../ModalPortal";
 import SSRSuspense, { cloneElement } from "../SSRSuspense";
 
 /**
@@ -14,9 +14,12 @@ export type ModalProps = {
 };
 
 const Modal: FC<ModalProps> = (props) => {
-  const { visible, children, showCloseButton, onClose } = props;
+  // const { visible, children, showCloseButton, onClose } = props;
+  // console.log("Modal render visible ========", props.visible);
   return (
-    <SSRSuspense fallback={<>hehe</>}>{cloneElement(children, { visible, showCloseButton, onClose })}</SSRSuspense>
+    <SSRSuspense fallback={<>hehe</>} {...props}>
+      <ModalPortal {...props} />
+    </SSRSuspense>
   );
 };
 
