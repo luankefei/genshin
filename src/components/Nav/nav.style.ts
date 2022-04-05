@@ -36,7 +36,7 @@ const Container = styled.nav`
     }
 
     > span {
-      color: #fff;
+      color: #444;
       text-decoration: none;
     }
 
