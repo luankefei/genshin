@@ -1,13 +1,22 @@
 import Head from "next/head";
 import React, { useEffect, useState, useContext } from "react";
 
-import { Page, Header, Container } from "./artifact.style";
+import ArtifactCard from "../../components/ArtifactCard";
+import { Page, Header, Container, ArtifactList, SideBar } from "./artifact.style";
 
 const Artifact = () => {
   return (
     <Page>
       <Header>header</Header>
-      <Container>111</Container>
+      <Container>
+        <SideBar>222</SideBar>
+        <ArtifactList>
+          <ul>
+            <ArtifactCard />
+            <ArtifactCard />
+          </ul>
+        </ArtifactList>
+      </Container>
     </Page>
   );
 };
