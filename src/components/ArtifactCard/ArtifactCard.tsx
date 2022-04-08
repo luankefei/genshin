@@ -3,6 +3,25 @@ import React, { useEffect, useState, useContext } from "react";
 import { Container, Header, Main } from "./artifact-card.style";
 
 const ArtifactCard = () => {
+  //   <artifact-card
+  //   v-for="a in store.state.filteredArtifacts"
+  //   :artifact="a"
+  //   :select-mode="selectMode"
+  //   :selected="selected(a.data.index)"
+  //   @flip-select="flipSelect(a.data.index, $event)"
+  //   @flip-lock="flipLock(a.data.index)"
+  //   @edit="edit(a.data.index)"
+  // />
+  const pieceName = () => {
+    if (props.artifact.set in chs.set && props.artifact.slot in chs.slot) {
+      let name = chs.set[props.artifact.set].name;
+      let slot = chs.slot[props.artifact.slot][2]; // "花","羽"...
+      return `${name} · ${slot}`;
+    } else {
+      return "未知";
+    }
+  };
+
   return (
     <Container>
       <Header>
