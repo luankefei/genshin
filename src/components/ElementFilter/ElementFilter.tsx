@@ -21,7 +21,7 @@ const ElementFilter = () => {
 
     return elements.map((item) => (
       <li className={item === elementFilter ? "selected" : ""} data-name={item} key={item}>
-        <img src={`/static/elements/${item}.png`} alt={item} />
+        <img src={`/elements/${item}.png`} alt={item} />
       </li>
     ));
   };

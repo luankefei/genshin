@@ -1,24 +1,24 @@
-import { createStore as _createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
-import { createWrapper } from 'next-redux-wrapper'
+import { createStore as _createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import { createWrapper } from "next-redux-wrapper";
 
-import createRootReducer from './rootReducer'
-import ApiClient from './ApiClient'
+import createRootReducer from "./rootReducer";
+import ApiClient from "../utils/request";
 
 function createStore(state: object = {}) {
   // create client instance
-  const client = new ApiClient()
+  const client = new ApiClient();
 
   // create app reducer
-  const reducer = createRootReducer()
+  const reducer = createRootReducer();
 
   // create redux middlewares
   // TODO: add redux logger
-  const middlewares = [thunk.withExtraArgument(client)]
+  const middlewares = [thunk.withExtraArgument(client)];
 
-  const enhancers = [applyMiddleware(...middlewares)]
+  const enhancers = [applyMiddleware(...middlewares)];
 
-  const store = _createStore(reducer, state, compose(...enhancers))
+  const store = _createStore(reducer, state, compose(...enhancers));
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
@@ -36,11 +36,11 @@ function createStore(state: object = {}) {
   // }
 
   // return create store factory
-  return store
+  return store;
 }
 
-const initStore = () => createStore()
+const initStore = () => createStore();
 
-const wrapper = createWrapper(initStore)
+const wrapper = createWrapper(initStore);
 
-export default wrapper
+export default wrapper;

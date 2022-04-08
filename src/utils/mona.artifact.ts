@@ -24,7 +24,7 @@ export class Affix implements IAffix {
   }
 }
 
-interface IArtifact {
+export interface IArtifact {
   set: string;
   slot: string;
   rarity: number;

@@ -2,7 +2,7 @@ import { Affix, Artifact } from "./mona.artifact";
 import data from "./mona.data";
 import { whatis, assert } from "./";
 
-export default {
+const mona = {
   keymap: {
     set: <{ [key: string]: string }>{
       GladiatorsFinale: "gladiatorFinale",
@@ -65,7 +65,9 @@ export default {
     return new Affix({ key, value });
   },
   loads(json: string) {
+    console.log("---------- 3", json);
     let mona = JSON.parse(json);
+    console.log("---------- 4", mona);
     // assert(mona.version == '1', 'Unsupported version')
     let ret = [];
     const mtypes = ["flower", "feather", "sand", "cup", "head"];
@@ -116,3 +118,5 @@ export default {
     return JSON.stringify(mona);
   },
 };
+
+export default mona;

@@ -16,6 +16,16 @@ export const ArtifactList = styled.div`
   margin-right: 500px;
   display: flex;
   background: red;
+
+  ul {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
+
+    > * {
+      margin: 10px;
+    }
+  }
 `;
 
 export const SideBar = styled.aside`
