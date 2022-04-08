@@ -19,6 +19,10 @@ export const Container = styled.li`
   box-shadow: 0 0 2px 0 #0007;
   border-radius: 3px;
   user-select: none;
+
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 export const Header = styled.div`
@@ -31,6 +35,7 @@ export const Header = styled.div`
   .head-stat {
     display: flex;
     flex-direction: column;
+    // box-sizing: border-box;
     width: 100px;
     padding: 10px 15px;
     color: white;

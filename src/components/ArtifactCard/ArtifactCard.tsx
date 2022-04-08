@@ -10,17 +10,14 @@ const ArtifactCard = () => {
           <div className="piece-name">pieceName</div>
           <div className="main-affix-name">main.name</div>
           <div className="main-affix-value">main.value</div>
-          <img src="starImgSrc" />
+          <img src="/icons/stars.png" alt="stars" />
         </div>
-        <img src="pieceImgSrc" />
+        <img src="/artifacts/adventurer/circlet-of-logos" alt="adventurer" />
       </Header>
       <Main>
         <div className="body-head">
           <span className="level">level</span>
           <span className="cur-an">affnum.cur</span>
-          <div className="lock-img-container">
-            <img src="lockImgSrc" data-click="flipLock" className="disabled ? 'disabled' : ''" />
-          </div>
         </div>
         <div className="minor-affixes">
           <div className="minor-affix" v-for="a in minors" data-style="a.style">
@@ -32,9 +29,9 @@ const ArtifactCard = () => {
           <div className="avg-an">期望affnum.avg</div>
           <div className="max-an">最大affnum.max</div>
         </div>
-        <div className="full-an" v-else>
+        {/* <div className="full-an" v-else={true}>
           已满级，affnum.cur词条
-        </div>
+        </div> */}
       </Main>
     </Container>
   );
