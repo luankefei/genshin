@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { LOCATION_CHANGE } from "react-router-redux";
 
-import adminReducer from "../Container/Artifact/artifact.reducer";
+import artifactReducer from "../containers/Artifact/artifact.reducer";
 
 // Initial routing state
 const routeInitialState = {

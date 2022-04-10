@@ -1,14 +1,26 @@
 import Head from "next/head";
+import Router, { withRouter } from "next/router";
 import React, { useEffect, useState, useContext } from "react";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { makeSelectWeightMap } from "./artifact.selector";
 
 import ArtifactCard from "./ArtifactCard";
-
-import { Page, Header, Container, ArtifactList, SideBar } from "./artifact.style";
 import ArtifactRight from "./ArtifactRight";
-import { IArtifact } from "src/utils/mona.artifact";
 
-const Artifact = () => {
+import { IArtifact } from "../../utils/mona.artifact";
+import { Page, Header, Container, ArtifactList, SideBar } from "./artifact.style";
+
+type IProps = {
+  weightMap: any;
+};
+
+const Artifact = (props: IProps) => {
+  const { weightMap } = props;
   const [artifactList, setArtifactList] = useState([]);
+
+  console.log("DATA FROM REDUX", weightMap);
 
   const onFileUploaded = (list: IArtifact[]) => {
     setArtifactList(list);
@@ -34,4 +46,10 @@ const Artifact = () => {
   );
 };
 
-export default Artifact;
+const mapStateToProps = createStructuredSelector({
+  weightMap: makeSelectWeightMap(),
+});
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(withConnect, withRouter)(Artifact);

@@ -100,6 +100,25 @@ const ArtifactRight = (props: IProps) => {
     }
   };
 
+  const renderWeightButtons = () => {
+    // value-button
+    // data-class="weight-button"
+    // data-for="(_, key) in store.state.weight"
+    // data-model-value="store.state.weight[key]"
+    // data-update-model-value="setWeight(key as string, $event)"
+    // chs.affix as any[key]
+    return (
+      <div className="weight-button" data-click="click">
+        <span className="blank">
+          <slot />
+        </span>
+        <span className="fill">
+          <slot />
+        </span>
+      </div>
+    );
+  };
+
   return (
     <Container>
       <Uploader>
@@ -124,6 +143,7 @@ const ArtifactRight = (props: IProps) => {
       <WeightSection>
         <SectionTitle title="词条权重" />
         <div data-style="margin-top: 14px;">
+          {renderWeightButtons()}
           <button
             value-button
             data-class="weight-button"
