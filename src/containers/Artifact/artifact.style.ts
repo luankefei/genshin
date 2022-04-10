@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Page = styled.div`
-  padding-top: 80px;
+  // padding-top: 80px;
 `;
 
 export const Header = styled.div`
@@ -9,13 +9,12 @@ export const Header = styled.div`
 `;
 
 export const Container = styled.div`
-  padding: 0 80px;
+  padding-top: 52px;
 `;
 
 export const ArtifactList = styled.div`
   margin-right: 500px;
   display: flex;
-  background: red;
 
   ul {
     display: flex;
@@ -30,8 +29,9 @@ export const ArtifactList = styled.div`
 
 export const SideBar = styled.aside`
   position: fixed;
-  top: 120px;
+  top: 40px;
+  bottom: 0;
   right: 0;
   width: 500px;
-  background: #f5f5f5;
+  background: #d9d9d9;
 `;

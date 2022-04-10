@@ -1,12 +1,16 @@
 import styled from "@emotion/styled";
 
 const Header = styled.header`
+  position: absolute;
+  top: 0;
+  width: 100%;
   height: 40px;
   line-height: 40px;
   background: #fff;
   padding: 0 80px;
   border-bottom: 1px solid #f5f5f5;
   box-shadow: 0 0 3px #aaa;
+  z-index: 10;
 
   .logo {
     float: left;

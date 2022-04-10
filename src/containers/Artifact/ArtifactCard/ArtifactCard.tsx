@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { IArtifact, Affix } from "../../utils/mona.artifact";
-import locale from "../../utils/locale.chs";
-import data from "../../utils/mona.data";
+import { IArtifact, Affix } from "../../../utils/mona.artifact";
+import locale from "../../../utils/locale.chs";
+import data from "../../../utils/mona.data";
 
 import { Container, Header, Main } from "./artifact-card.style";
 
@@ -63,7 +63,11 @@ const ArtifactCard = (props: IArtifact) => {
         // style: `opacity: ${store.state.weightInUse[a.key] > 0 ? 1 : 0.5};`,
       });
     }
-    return ret.map((item) => <div className="minor-affix">{item.text}</div>);
+    return ret.map((item) => (
+      <div key={item.text} className="minor-affix">
+        {item.text}
+      </div>
+    ));
   };
 
   // computed tofixed
@@ -96,7 +100,7 @@ const ArtifactCard = (props: IArtifact) => {
           <div className="avg-an">期望 {affnum.avg}</div>
           <div className="max-an">最大 {affnum.max}</div>
         </div>
-        <div className="full-an" v-else={true}>
+        <div className="full-an" data-else={true}>
           已满级，{affnum.cur}词条
         </div>
       </Main>
