@@ -2,10 +2,19 @@ import SectionTitle from "../SectionTitle";
 
 import log from "../../../utils/log";
 import mona from "../../../utils/mona";
-import { Container, Uploader, UploadMessage, SectionContent, WeightSection } from "./artifact-right.style";
+import {
+  Container,
+  Uploader,
+  UploadMessage,
+  SectionContent,
+  WeightSection,
+  WeightButton,
+} from "./artifact-right.style";
 import { IArtifact } from "src/utils/mona.artifact";
+import localeChs from "src/utils/locale.chs";
 
 type IProps = {
+  weightMap: any;
   onFileUploaded: (list: IArtifact[]) => void;
 };
 
@@ -34,7 +43,7 @@ function validateFile(file: any): boolean {
 }
 
 const ArtifactRight = (props: IProps) => {
-  const { onFileUploaded } = props;
+  const { weightMap, onFileUploaded } = props;
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
@@ -101,22 +110,33 @@ const ArtifactRight = (props: IProps) => {
   };
 
   const renderWeightButtons = () => {
+    console.log("renderWeightButtons", weightMap);
+    return Object.keys(weightMap).map((k) => {
+      const content = localeChs.affix[k];
+
+      return (
+        <WeightButton key={k} className="weight-button" data-click="click(k)">
+          <span className="blank">{content}</span>
+          <span className="fill">{content}</span>
+        </WeightButton>
+      );
+    });
     // value-button
     // data-class="weight-button"
     // data-for="(_, key) in store.state.weight"
     // data-model-value="store.state.weight[key]"
     // data-update-model-value="setWeight(key as string, $event)"
     // chs.affix as any[key]
-    return (
-      <div className="weight-button" data-click="click">
-        <span className="blank">
-          <slot />
-        </span>
-        <span className="fill">
-          <slot />
-        </span>
-      </div>
-    );
+    // return (
+    //   <div className="weight-button" data-click="click">
+    //     <span className="blank">
+    //       <slot />
+    //     </span>
+    //     <span className="fill">
+    //       <slot />
+    //     </span>
+    //   </div>
+    // );
   };
 
   return (
@@ -142,18 +162,7 @@ const ArtifactRight = (props: IProps) => {
       </Uploader>
       <WeightSection>
         <SectionTitle title="词条权重" />
-        <div data-style="margin-top: 14px;">
-          {renderWeightButtons()}
-          <button
-            value-button
-            data-class="weight-button"
-            data-for="(_, key) in store.state.weight"
-            data-model-value="store.state.weight[key]"
-            data-update-model-value="setWeight(key as string, $event)"
-          >
-            chs.affix as any[key]
-          </button>
-        </div>
+        <SectionContent>{renderWeightButtons()}</SectionContent>
       </WeightSection>
     </Container>
   );

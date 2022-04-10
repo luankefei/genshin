@@ -39,3 +39,50 @@ export const SectionContent = styled.div`
     display: inline-block;
   }
 `;
+
+const primaryColor = "#3694ff";
+export const WeightButton = styled.div`
+  width: 85px;
+  height: 38px;
+  display: inline-block;
+  border-radius: 3px;
+  box-shadow: 0 0 2px 0 #0007;
+  line-height: 38px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  margin: 10px 10px 0 0;
+
+  .blank {
+    background: white;
+    color: ${primaryColor};
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+  }
+
+  .fill {
+    background: ${primaryColor};
+    color: white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    clip-path: polygon(0 0, 60% 0, 40% 100%, 0 100%);
+    transition: clip-path 200ms ease;
+  }
+
+  &.one .fill {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  &.zero .fill {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+`;

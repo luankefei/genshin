@@ -32,7 +32,7 @@ const Artifact = (props: IProps) => {
     <Page>
       <Container>
         <SideBar>
-          <ArtifactRight onFileUploaded={onFileUploaded} />
+          <ArtifactRight onFileUploaded={onFileUploaded} weightMap={weightMap} />
         </SideBar>
         <ArtifactList>
           <ul>
