@@ -86,3 +86,5 @@ export const WeightButton = styled.div`
     clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
   }
 `;
+
+export const FilterSection = styled.div``;

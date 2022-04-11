@@ -9,6 +9,7 @@ import {
   SectionContent,
   WeightSection,
   WeightButton,
+  FilterSection,
 } from "./artifact-right.style";
 import { IArtifact } from "src/utils/mona.artifact";
 import localeChs from "src/utils/locale.chs";
@@ -109,34 +110,39 @@ const ArtifactRight = (props: IProps) => {
     }
   };
 
+  const onWeightButtonClick = (key: string) => () => {
+    console.log("onWeightButtonClick", key, weightMap[key]);
+    // if (props.modelValue == 0) {
+    //   emit("update:modelValue", 0.5);
+    // } else if (props.modelValue == 0.5) {
+    //   emit("update:modelValue", 1);
+    // } else {
+    //   emit("update:modelValue", 0);
+    // }
+  };
+
   const renderWeightButtons = () => {
     console.log("renderWeightButtons", weightMap);
+    //   return {
+    //     "value-button": true,
+    //     one: props.modelValue == 1,
+    //     zero: props.modelValue == 0,
+    //   };
+    // });
+    // });
+
     return Object.keys(weightMap).map((k) => {
       const content = localeChs.affix[k];
+      let affix = weightMap[k] === 1 ? "one" : "";
+      if (weightMap[k] === 0) affix = "zero";
 
       return (
-        <WeightButton key={k} className="weight-button" data-click="click(k)">
+        <WeightButton key={k} className={affix} onClick={onWeightButtonClick(k)}>
           <span className="blank">{content}</span>
           <span className="fill">{content}</span>
         </WeightButton>
       );
     });
-    // value-button
-    // data-class="weight-button"
-    // data-for="(_, key) in store.state.weight"
-    // data-model-value="store.state.weight[key]"
-    // data-update-model-value="setWeight(key as string, $event)"
-    // chs.affix as any[key]
-    // return (
-    //   <div className="weight-button" data-click="click">
-    //     <span className="blank">
-    //       <slot />
-    //     </span>
-    //     <span className="fill">
-    //       <slot />
-    //     </span>
-    //   </div>
-    // );
   };
 
   return (
@@ -152,18 +158,84 @@ const ArtifactRight = (props: IProps) => {
           <UploadMessage>成功导入638个5星圣遗物</UploadMessage>
         </SectionContent>
 
-        {/* <label htmlFor="select-file">
-          <div className="select-img">
-            <img src="/icon/select_photo.png" alt="更换照片" />
-            <span>更换照片</span>
-          </div>
-        </label> */}
         <input id="select-file" type="file" onChange={fileChange} accept=".json" />
       </Uploader>
       <WeightSection>
         <SectionTitle title="词条权重" />
         <SectionContent>{renderWeightButtons()}</SectionContent>
       </WeightSection>
+
+      <FilterSection>
+        <SectionTitle title="筛选">
+          <span data-show="store.state.useFilterPro" data-click="useFilterPro(false)">
+            基本
+          </span>
+          <span data-show="!store.state.useFilterPro" data-click="useFilterPro(true)">
+            高级
+          </span>
+        </SectionTitle>
+        <SectionContent data-show="!store.state.useFilterPro">
+          <div className="filter">
+            <span className="filter-name">套装：</span>
+            <div
+              drop-select
+              className="filter-ctrl"
+              data-items="store.getters.filterSets"
+              data-model-value="store.state.filter.set"
+              data-update-model-value="setFilter('set', $event)"
+            />
+          </div>
+          <div className="filter">
+            <span className="filter-name">部位：</span>
+            <div
+              drop-select
+              className="filter-ctrl"
+              data-items="store.getters.filterSlots"
+              data-model-value="store.state.filter.slot"
+              data-update-model-value="setFilter('slot', $event)"
+            />
+          </div>
+          <div className="filter">
+            <span className="filter-name">主词条：</span>
+            <div
+              drop-select
+              className="filter-ctrl"
+              data-items="store.getters.filterMains"
+              data-model-value="store.state.filter.main"
+              data-update-model-value="setFilter('main', $event)"
+            />
+          </div>
+          <div className="filter">
+            <span className="filter-name">角色：</span>
+            <div
+              drop-select
+              className="filter-ctrl"
+              data-items="store.getters.filterLocations"
+              data-modue="store.state.filter.location"
+              data-update-model-value="setFilter('location', $event)"
+            />
+          </div>
+          <div className="filter">
+            <span className="filter-name">锁：</span>
+            <div
+              drop-select
+              className="filter-ctrl"
+              data-items="store.getters.filterLocks"
+              data-model-value="store.state.filter.lock"
+              data-update-model-value="setFilter('lock', $event)"
+            />
+          </div>
+          <div className="filter">
+            <span className="filter-name">等级：</span>
+            <div
+              range-slider
+              className="filter-ctrl"
+              data-model-value="store.state.filter.lvRange"
+              data-update-model-value="setFilter('lvRange', $event)"
+            />
+          </div>
+        </SectionContent>
+      </FilterSection>
     </Container>
   );
 };
