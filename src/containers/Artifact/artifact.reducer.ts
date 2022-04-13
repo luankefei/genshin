@@ -5,7 +5,7 @@ const RECORD = "custom/RECORD";
 const initialState = {
   artifacts: [],
   filteredArtifacts: [],
-  filter: {
+  filterMap: {
     set: "",
     slot: "",
     main: "", // mainKey should be better...

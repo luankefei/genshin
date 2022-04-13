@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DropSelect, Option } from "./select.style";
 
-type IOption = {
+export type IOption = {
   key: string;
   value: string | number;
   tip: string;
@@ -17,6 +17,8 @@ const Select = (props: IProps) => {
   const { value, options } = props;
   const [visible, setVisible] = useState(true);
 
+  console.log("renderSelect", options, options.length);
+
   const toggleOptions = (state: boolean) => () => {
     if (visible !== state) setVisible(state);
   };
@@ -30,9 +32,10 @@ const Select = (props: IProps) => {
   };
 
   const renderOptions = () => {
+    if (!options.length) return [];
     return options.map((op, index) => (
       <Option key={index} className="option" onClick={onOptionSelect(op)}>
-        <span className="value">{op.value}</span>
+        <span className="value">{op.key}</span>
         <i className="tip">{op.tip}</i>
       </Option>
     ));
@@ -45,7 +48,7 @@ const Select = (props: IProps) => {
       onMouseEnter={toggleOptions(true)}
       onMouseLeave={toggleOptions(false)}
     >
-      <span>{value}</span>
+      <span>{value || "全部"}</span>
       <i />
       <ul style={{ display: visible ? "block" : "none" }}>{renderOptions()}</ul>
     </DropSelect>

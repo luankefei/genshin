@@ -1,5 +1,8 @@
+import React, { useState, useEffect } from "react";
+
 import SectionTitle from "../SectionTitle";
 import Select from "../Select";
+import type { IOption } from "../Select";
 
 import log from "../../../utils/log";
 import mona from "../../../utils/mona";
@@ -17,11 +20,7 @@ import {
 } from "./artifact-right.style";
 import { IArtifact } from "src/utils/mona.artifact";
 import localeChs from "src/utils/locale.chs";
-
-type IProps = {
-  weightMap: any;
-  onFileUploaded: (list: IArtifact[]) => void;
-};
+import { ArtifactList } from "../artifact.style";
 
 const logProgress: string[] = [];
 
@@ -47,8 +46,36 @@ function validateFile(file: any): boolean {
   return true;
 }
 
+function countArtifactsByAttr(artifacts: IArtifact[], key: keyof IArtifact) {
+  let s: { [key: string]: number } = {};
+  for (let a of artifacts) {
+    let akey = a[key].toString();
+    s[akey] = akey in s ? s[akey] + 1 : 1;
+  }
+  return s;
+}
+
+type IProps = {
+  weightMap: any;
+  filterMap: any;
+  artifactList: any[];
+  onFileUploaded: (list: IArtifact[]) => void;
+};
+
 const ArtifactRight = (props: IProps) => {
-  const { weightMap, onFileUploaded } = props;
+  const { weightMap, filterMap, artifactList, onFileUploaded } = props;
+  const [filterOptionsMap, setFilterOptionsMap] = useState({
+    set: [],
+    slot: [],
+    mainKey: [],
+    location: [],
+    lock: [],
+  });
+
+  useEffect(() => {
+    console.log("artifactList.length", artifactList.length);
+    generateFilters();
+  }, [artifactList]);
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
@@ -91,11 +118,11 @@ const ArtifactRight = (props: IProps) => {
       });
     });
 
-    console.log("imageUrl", artifacts);
+    // console.log("imageUrl", artifacts);
 
     // const fileName = `checkin_custom_${today}_${userInfo.user_id}_${file.name}`;
     if (artifacts && artifacts.length) {
-      console.log("setArtifactList");
+      // console.log("setArtifactList");
       onFileUploaded(artifacts);
       // setArtifactList(artifacts);
 
@@ -126,7 +153,7 @@ const ArtifactRight = (props: IProps) => {
   };
 
   const renderWeightButtons = () => {
-    console.log("renderWeightButtons", weightMap);
+    // console.log("renderWeightButtons", weightMap);
     //   return {
     //     "value-button": true,
     //     one: props.modelValue == 1,
@@ -148,6 +175,64 @@ const ArtifactRight = (props: IProps) => {
       );
     });
   };
+
+  // const countArtifactsByAttr = (artifacts: IArtifact[], key: keyof IArtifact) => {
+  //   // key: string;
+  //   // value: string | number;
+  //   // tip: string;
+
+  //   let s: IOption[] = [];
+  //   const op: IOption = { tip: "0", key: "", value: "" };
+  //   for (let a of artifacts) {
+  //     let akey = a[key].toString();
+  //     op.key = akey;
+  //     if (akey in s) {
+  //       op[akey].tip += 1;
+  //     }
+  //   }
+  //   s.push(op);
+  //   return s;
+  // };
+
+  const restoreToOptionList = (dict: any, names: string[]) => {
+    names.forEach((n) => {
+      const list = [];
+      Object.keys(dict[n]).forEach((k) => {
+        list.push({
+          key: k, // OceanHuedClam,
+          value: k,
+          tip: dict[n][k],
+        });
+      });
+
+      dict[n] = list;
+
+      // TODO: 文字没有转成中文，需要查找原项目的代码
+      console.log("restoreToOptionList list: ", list);
+    });
+  };
+
+  const generateFilters = () => {
+    const dict = {};
+    const names = ["set", "slot", "mainKey", "location", "lock"];
+    names.forEach((key) => (dict[key] = countArtifactsByAttr(artifactList as any, key as keyof IArtifact)));
+
+    // restore
+    restoreToOptionList(dict, names);
+
+    console.log("countArtifactsByAttr", dict);
+    setFilterOptionsMap(dict as any);
+  };
+
+  //   filterSets(state) {
+  //     let ret = [{ key: "", value: "全部", tip: state.artifacts.length.toString() }],
+  //         s = countArtifactAttr(state.artifacts, 'set')
+  //     for (let key in chs.set) {
+  //         if (key in s)
+  //             ret.push({ key, value: chs.set[key].name, tip: s[key].toString() });
+  //     }
+  //     return ret;
+  // },
 
   return (
     <Container>
@@ -171,20 +256,21 @@ const ArtifactRight = (props: IProps) => {
 
       <FilterSection>
         <SectionTitle title="筛选">
-          <span data-show="store.state.useFilterPro" data-click="useFilterPro(false)">
+          {/* <span data-show="store.state.useFilterPro" data-click="useFilterPro(false)">
             基本
           </span>
           <span data-show="!store.state.useFilterPro" data-click="useFilterPro(true)">
             高级
-          </span>
+          </span> */}
         </SectionTitle>
         <SectionContent data-show="!store.state.useFilterPro">
           <Filter className="filter">
             <FilterTitle>套装：</FilterTitle>
             <FilterDetail>
               <Select
-                value="全部"
-                options={[{ key: "北京", value: "beijing", tip: "10" }]}
+                value={filterMap.set}
+                // options={[{ key: "北京", value: "beijing", tip: "10" }]}
+                options={filterOptionsMap.set}
                 onSelect={() => undefined}
                 data-className="filter-ctrl"
                 data-items="store.getters.filterSets"

@@ -65,9 +65,9 @@ const mona = {
     return new Affix({ key, value });
   },
   loads(json: string) {
-    console.log("---------- 3", json);
+    // console.log("---------- 3", json);
     let mona = JSON.parse(json);
-    console.log("---------- 4", mona);
+    // console.log("---------- 4", mona);
     // assert(mona.version == '1', 'Unsupported version')
     let ret = [];
     const mtypes = ["flower", "feather", "sand", "cup", "head"];

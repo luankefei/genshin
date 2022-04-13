@@ -28,7 +28,7 @@ function sendLog(queryStr: string) {
   const el = document.getElementById("app");
   img.src = ["https://statistics.laiye.com/static/p.gif?", queryStr].join("");
 
-  fetch(["https://tocpre.laiye.com/static/q.gif?", queryStr].join(""));
+  // fetch(["https://tocpre.laiye.com/static/q.gif?", queryStr].join(""));
 
   if (el) {
     el.appendChild(img);

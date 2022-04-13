@@ -4,7 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { makeSelectWeightMap } from "./artifact.selector";
+import { makeSelectWeightMap, makeSelectFilterMap } from "./artifact.selector";
 
 import ArtifactCard from "./ArtifactCard";
 import ArtifactRight from "./ArtifactRight";
@@ -14,13 +14,14 @@ import { Page, Header, Container, ArtifactList, SideBar } from "./artifact.style
 
 type IProps = {
   weightMap: any;
+  filterMap: any;
 };
 
 const Artifact = (props: IProps) => {
-  const { weightMap } = props;
+  const { weightMap, filterMap } = props;
   const [artifactList, setArtifactList] = useState([]);
 
-  console.log("DATA FROM REDUX", weightMap);
+  // console.log("DATA FROM REDUX", weightMap);
 
   const onFileUploaded = (list: IArtifact[]) => {
     setArtifactList(list);
@@ -32,7 +33,12 @@ const Artifact = (props: IProps) => {
     <Page>
       <Container>
         <SideBar>
-          <ArtifactRight onFileUploaded={onFileUploaded} weightMap={weightMap} />
+          <ArtifactRight
+            onFileUploaded={onFileUploaded}
+            weightMap={weightMap}
+            filterMap={filterMap}
+            artifactList={artifactList}
+          />
         </SideBar>
         <ArtifactList>
           <ul>
@@ -48,6 +54,7 @@ const Artifact = (props: IProps) => {
 
 const mapStateToProps = createStructuredSelector({
   weightMap: makeSelectWeightMap(),
+  filterMap: makeSelectFilterMap(),
 });
 
 const withConnect = connect(mapStateToProps);
