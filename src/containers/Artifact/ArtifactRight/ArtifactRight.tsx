@@ -1,4 +1,5 @@
 import SectionTitle from "../SectionTitle";
+import Select from "../Select";
 
 import log from "../../../utils/log";
 import mona from "../../../utils/mona";
@@ -10,6 +11,9 @@ import {
   WeightSection,
   WeightButton,
   FilterSection,
+  Filter,
+  FilterTitle,
+  FilterDetail,
 } from "./artifact-right.style";
 import { IArtifact } from "src/utils/mona.artifact";
 import localeChs from "src/utils/locale.chs";
@@ -175,27 +179,32 @@ const ArtifactRight = (props: IProps) => {
           </span>
         </SectionTitle>
         <SectionContent data-show="!store.state.useFilterPro">
-          <div className="filter">
-            <span className="filter-name">套装：</span>
-            <div
-              drop-select
-              className="filter-ctrl"
-              data-items="store.getters.filterSets"
-              data-model-value="store.state.filter.set"
-              data-update-model-value="setFilter('set', $event)"
-            />
-          </div>
-          <div className="filter">
-            <span className="filter-name">部位：</span>
-            <div
-              drop-select
-              className="filter-ctrl"
-              data-items="store.getters.filterSlots"
-              data-model-value="store.state.filter.slot"
-              data-update-model-value="setFilter('slot', $event)"
-            />
-          </div>
-          <div className="filter">
+          <Filter className="filter">
+            <FilterTitle>套装：</FilterTitle>
+            <FilterDetail>
+              <Select
+                value="全部"
+                options={[{ key: "北京", value: "beijing", tip: "10" }]}
+                onSelect={() => undefined}
+                data-className="filter-ctrl"
+                data-items="store.getters.filterSets"
+                data-model-value="store.state.filter.set"
+                data-update-model-value="setFilter('set', $event)"
+              />
+            </FilterDetail>
+          </Filter>
+          <Filter>
+            <FilterTitle>部位：</FilterTitle>
+            <FilterDetail>
+              <div
+                className="filter-ctrl"
+                data-items="store.getters.filterSlots"
+                data-model-value="store.state.filter.slot"
+                data-update-model-value="setFilter('slot', $event)"
+              />
+            </FilterDetail>
+          </Filter>
+          {/* <div className="filter">
             <span className="filter-name">主词条：</span>
             <div
               drop-select
@@ -233,7 +242,7 @@ const ArtifactRight = (props: IProps) => {
               data-model-value="store.state.filter.lvRange"
               data-update-model-value="setFilter('lvRange', $event)"
             />
-          </div>
+          </div> */}
         </SectionContent>
       </FilterSection>
     </Container>
