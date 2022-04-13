@@ -4,6 +4,8 @@ import SectionTitle from "../SectionTitle";
 import Select from "../Select";
 import type { IOption } from "../Select";
 
+import localeChs from "../../../utils/locale.chs";
+import artifactDict from "../../../utils/artifact.dict";
 import log from "../../../utils/log";
 import mona from "../../../utils/mona";
 import {
@@ -19,7 +21,6 @@ import {
   FilterDetail,
 } from "./artifact-right.style";
 import { IArtifact } from "src/utils/mona.artifact";
-import localeChs from "src/utils/locale.chs";
 import { ArtifactList } from "../artifact.style";
 
 const logProgress: string[] = [];
@@ -49,6 +50,7 @@ function validateFile(file: any): boolean {
 function countArtifactsByAttr(artifacts: IArtifact[], key: keyof IArtifact) {
   let s: { [key: string]: number } = {};
   for (let a of artifacts) {
+    console.log("a[key].", a, key, a[key]);
     let akey = a[key].toString();
     s[akey] = akey in s ? s[akey] + 1 : 1;
   }
@@ -195,11 +197,17 @@ const ArtifactRight = (props: IProps) => {
   // };
 
   const restoreToOptionList = (dict: any, names: string[]) => {
+    const mapping = {
+      ...localeChs,
+      // ...artifactDict
+    };
+    // console.log("localeChs mapping", mapping);
     names.forEach((n) => {
       const list = [];
       Object.keys(dict[n]).forEach((k) => {
+        // console.log("------------------ forEach", n, k, dict);
         list.push({
-          key: k, // OceanHuedClam,
+          key: mapping[n][k].name, // OceanHuedClam,
           value: k,
           tip: dict[n][k],
         });
@@ -214,7 +222,8 @@ const ArtifactRight = (props: IProps) => {
 
   const generateFilters = () => {
     const dict = {};
-    const names = ["set", "slot", "mainKey", "location", "lock"];
+    const names = ["set", "slot"];
+    // "mainKey", "location", "lock"];
     names.forEach((key) => (dict[key] = countArtifactsByAttr(artifactList as any, key as keyof IArtifact)));
 
     // restore
