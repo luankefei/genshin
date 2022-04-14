@@ -4,11 +4,12 @@ const RECORD = "custom/RECORD";
 
 const initialState = {
   artifacts: [],
+
   filteredArtifacts: [],
   filterMap: {
     set: "",
     slot: "",
-    main: "", // mainKey should be better...
+    mainKey: "", // mainKey should be better...
     location: "all", // 'all' is a temporary workaround, fix it later
     lock: "", // '', 'true', 'false'
     lvRange: [0, 20],

@@ -33,7 +33,7 @@ export default <IData>{
     cd: { p: 3, v: 7.77 },
   },
   minorKeys: ["hp", "atk", "def", "hpp", "atkp", "defp", "em", "er", "cr", "cd"],
-  mainKeys: {
+  mainKey: {
     all: [
       "hp",
       "atk",

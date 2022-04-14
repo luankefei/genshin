@@ -57,9 +57,10 @@ const ArtifactCard = (props: IArtifact) => {
     let ret = [];
     for (let a of props.minors) {
       let name = affixName(a.key);
+      // TODO: 这里为了测试暂时禁用valueString
       ret.push({
-        text: `· ${name}+${a.valueString()}`,
-        // TODO: 这里是和筛选项相关的功能，过滤无效词条
+        // text: `· ${name}+${a.valueString()}`,
+        text: `· ${name}+${a.value}`,
         // style: `opacity: ${store.state.weightInUse[a.key] > 0 ? 1 : 0.5};`,
       });
     }

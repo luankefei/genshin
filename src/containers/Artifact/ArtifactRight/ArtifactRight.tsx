@@ -50,7 +50,7 @@ function validateFile(file: any): boolean {
 function countArtifactsByAttr(artifacts: IArtifact[], key: keyof IArtifact) {
   let s: { [key: string]: number } = {};
   for (let a of artifacts) {
-    console.log("a[key].", a, key, a[key]);
+    // console.log("a[key].", a, key, a[key]);
     let akey = a[key].toString();
     s[akey] = akey in s ? s[akey] + 1 : 1;
   }
@@ -75,9 +75,10 @@ const ArtifactRight = (props: IProps) => {
   });
 
   useEffect(() => {
-    console.log("artifactList.length", artifactList.length);
+    // console.log("artifactList.length", JSON.stringify(artifactList));
     generateFilters();
-  }, [artifactList]);
+    // }, [artifactList]);
+  }, []);
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
@@ -199,15 +200,17 @@ const ArtifactRight = (props: IProps) => {
   const restoreToOptionList = (dict: any, names: string[]) => {
     const mapping = {
       ...localeChs,
-      // ...artifactDict
+      ...artifactDict,
     };
     // console.log("localeChs mapping", mapping);
     names.forEach((n) => {
+      // let n = name === "mainKey" ? "mainKeys" : name;
       const list = [];
+      console.log("------------------ forEach before", n, dict);
       Object.keys(dict[n]).forEach((k) => {
-        // console.log("------------------ forEach", n, k, dict);
+        console.log("------------------ forEach", mapping[n][k], n, k, dict);
         list.push({
-          key: mapping[n][k].name, // OceanHuedClam,
+          key: n === "mainKey" ? mapping[n][k] : mapping[n][k].name, // OceanHuedClam,
           value: k,
           tip: dict[n][k],
         });
@@ -221,11 +224,57 @@ const ArtifactRight = (props: IProps) => {
   };
 
   const generateFilters = () => {
+    // TODO: 测试数据
     const dict = {};
-    const names = ["set", "slot"];
+    // const dict = {
+    //   set: {
+    //     EchoesOfAnOffering: 150,
+    //     OceanHuedClam: 37,
+    //     EmblemOfSeveredFate: 59,
+    //     ShimenawasReminiscence: 72,
+    //     ArchaicPetra: 8,
+    //     NoblesseOblige: 61,
+    //     ThunderingFury: 27,
+    //     WanderersTroupe: 74,
+    //     GladiatorsFinale: 53,
+    //     BlizzardStrayer: 10,
+    //     TenacityOfTheMillelith: 9,
+    //     MaidenBeloved: 2,
+    //     Thundersoother: 32,
+    //     VermillionHereafter: 177,
+    //     HuskOfOpulentDreams: 33,
+    //     HeartOfDepth: 6,
+    //     RetracingBolide: 7,
+    //     ViridescentVenerer: 4,
+    //     PaleFlame: 5,
+    //     BloodstainedChivalry: 2,
+    //   },
+    //   slot: { flower: 164, plume: 168, sands: 170, goblet: 168, circlet: 158 },
+    //   mainKey: {
+    //     hp: 164,
+    //     atk: 168,
+    //     atkp: 131,
+    //     hpp: 92,
+    //     em: 43,
+    //     er: 20,
+    //     defp: 87,
+    //     hydroDB: 10,
+    //     electroDB: 9,
+    //     cryoDB: 8,
+    //     pyroDB: 5,
+    //     geoDB: 14,
+    //     anemoDB: 14,
+    //     physicalDB: 8,
+    //     cd: 16,
+    //     cr: 19,
+    //     hb: 20,
+    //   },
+    // };
+    const names = ["set", "slot", "mainKey"];
     // "mainKey", "location", "lock"];
     names.forEach((key) => (dict[key] = countArtifactsByAttr(artifactList as any, key as keyof IArtifact)));
 
+    console.log("dict", dict);
     // restore
     restoreToOptionList(dict, names);
 

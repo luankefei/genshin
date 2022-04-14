@@ -32,6 +32,7 @@ export interface IArtifact {
   lock: boolean;
   location: string;
   mainKey: string;
+  // mainKeys: string;
   minors: Affix[];
   data: {
     index: number;
@@ -53,6 +54,7 @@ export class Artifact implements IArtifact {
   lock = false;
   location = "";
   mainKey = "";
+  // mainKeys = "";
   minors: Affix[] = [];
   data = {
     index: 0,
@@ -68,6 +70,7 @@ export class Artifact implements IArtifact {
       this.lock = obj.lock;
       this.location = obj.location;
       this.mainKey = obj.mainKey;
+      // this.mainKeys = obj.mainKey;
       for (let o of obj.minors) {
         this.minors.push(new Affix(o));
       }

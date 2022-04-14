@@ -85,6 +85,7 @@ const mona = {
         artifact.level = martifact["level"];
         artifact.rarity = martifact["star"];
         artifact.mainKey = whatis(martifact["mainTag"]["name"], this.keymap.affix) as string;
+        // artifact.mainKeys = artifact.mainKey;
         for (let ma of martifact["normalTags"]) {
           artifact.minors.push(this.getAffix(ma["name"], ma["value"]));
         }

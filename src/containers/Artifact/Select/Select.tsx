@@ -17,7 +17,7 @@ const Select = (props: IProps) => {
   const { value, options } = props;
   const [visible, setVisible] = useState(true);
 
-  console.log("renderSelect", options, options.length);
+  // console.log("renderSelect", options, options.length);
 
   const toggleOptions = (state: boolean) => () => {
     if (visible !== state) setVisible(state);
