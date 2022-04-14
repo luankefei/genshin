@@ -15,7 +15,7 @@ type IProps = {
 
 const Select = (props: IProps) => {
   const { value, options } = props;
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   // console.log("renderSelect", options, options.length);
 

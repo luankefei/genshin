@@ -210,7 +210,7 @@ const ArtifactRight = (props: IProps) => {
       Object.keys(dict[n]).forEach((k) => {
         console.log("------------------ forEach", mapping[n][k], n, k, dict);
         list.push({
-          key: n === "mainKey" ? mapping[n][k] : mapping[n][k].name, // OceanHuedClam,
+          key: n === "set" ? mapping[n][k].name : mapping[n][k], // OceanHuedClam,
           value: k,
           tip: dict[n][k],
         });
@@ -274,7 +274,7 @@ const ArtifactRight = (props: IProps) => {
     // "mainKey", "location", "lock"];
     names.forEach((key) => (dict[key] = countArtifactsByAttr(artifactList as any, key as keyof IArtifact)));
 
-    console.log("dict", dict);
+    console.log("====== FilterOptionsMap dict", dict);
     // restore
     restoreToOptionList(dict, names);
 
@@ -340,10 +340,12 @@ const ArtifactRight = (props: IProps) => {
           <Filter>
             <FilterTitle>部位：</FilterTitle>
             <FilterDetail>
-              <div
-                className="filter-ctrl"
+              <Select
+                value={filterMap.slot}
+                options={filterOptionsMap.slot}
+                onSelect={() => undefined}
+                data-className="filter-ctrl"
                 data-items="store.getters.filterSlots"
-                data-model-value="store.state.filter.slot"
                 data-update-model-value="setFilter('slot', $event)"
               />
             </FilterDetail>
