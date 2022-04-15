@@ -208,9 +208,14 @@ const ArtifactRight = (props: IProps) => {
       const list = [];
       console.log("------------------ forEach before", n, dict);
       Object.keys(dict[n]).forEach((k) => {
-        console.log("------------------ forEach", mapping[n][k], n, k, dict);
+        console.log("------------------ forEach", mapping[n][k], dict[n][k], n, k, dict, mapping);
+        let key = n === "set" ? mapping[n][k].name : mapping[n][k];
+
+        // mainKey词条需要翻译
+        if (n === "mainKey") key = localeChs.affix[k];
+
         list.push({
-          key: n === "set" ? mapping[n][k].name : mapping[n][k], // OceanHuedClam,
+          key, // OceanHuedClam,
           value: k,
           tip: dict[n][k],
         });
@@ -226,50 +231,6 @@ const ArtifactRight = (props: IProps) => {
   const generateFilters = () => {
     // TODO: 测试数据
     const dict = {};
-    // const dict = {
-    //   set: {
-    //     EchoesOfAnOffering: 150,
-    //     OceanHuedClam: 37,
-    //     EmblemOfSeveredFate: 59,
-    //     ShimenawasReminiscence: 72,
-    //     ArchaicPetra: 8,
-    //     NoblesseOblige: 61,
-    //     ThunderingFury: 27,
-    //     WanderersTroupe: 74,
-    //     GladiatorsFinale: 53,
-    //     BlizzardStrayer: 10,
-    //     TenacityOfTheMillelith: 9,
-    //     MaidenBeloved: 2,
-    //     Thundersoother: 32,
-    //     VermillionHereafter: 177,
-    //     HuskOfOpulentDreams: 33,
-    //     HeartOfDepth: 6,
-    //     RetracingBolide: 7,
-    //     ViridescentVenerer: 4,
-    //     PaleFlame: 5,
-    //     BloodstainedChivalry: 2,
-    //   },
-    //   slot: { flower: 164, plume: 168, sands: 170, goblet: 168, circlet: 158 },
-    //   mainKey: {
-    //     hp: 164,
-    //     atk: 168,
-    //     atkp: 131,
-    //     hpp: 92,
-    //     em: 43,
-    //     er: 20,
-    //     defp: 87,
-    //     hydroDB: 10,
-    //     electroDB: 9,
-    //     cryoDB: 8,
-    //     pyroDB: 5,
-    //     geoDB: 14,
-    //     anemoDB: 14,
-    //     physicalDB: 8,
-    //     cd: 16,
-    //     cr: 19,
-    //     hb: 20,
-    //   },
-    // };
     const names = ["set", "slot", "mainKey"];
     // "mainKey", "location", "lock"];
     names.forEach((key) => (dict[key] = countArtifactsByAttr(artifactList as any, key as keyof IArtifact)));
@@ -350,36 +311,20 @@ const ArtifactRight = (props: IProps) => {
               />
             </FilterDetail>
           </Filter>
-          {/* <div className="filter">
-            <span className="filter-name">主词条：</span>
-            <div
-              drop-select
-              className="filter-ctrl"
-              data-items="store.getters.filterMains"
-              data-model-value="store.state.filter.main"
-              data-update-model-value="setFilter('main', $event)"
-            />
-          </div>
-          <div className="filter">
-            <span className="filter-name">角色：</span>
-            <div
-              drop-select
-              className="filter-ctrl"
-              data-items="store.getters.filterLocations"
-              data-modue="store.state.filter.location"
-              data-update-model-value="setFilter('location', $event)"
-            />
-          </div>
-          <div className="filter">
-            <span className="filter-name">锁：</span>
-            <div
-              drop-select
-              className="filter-ctrl"
-              data-items="store.getters.filterLocks"
-              data-model-value="store.state.filter.lock"
-              data-update-model-value="setFilter('lock', $event)"
-            />
-          </div>
+          <Filter>
+            <FilterTitle>主词条：</FilterTitle>
+            <FilterDetail>
+              <Select
+                value={filterMap.mainKey}
+                options={filterOptionsMap.mainKey}
+                onSelect={() => undefined}
+                data-className="filter-ctrl"
+                data-items="store.getters.filterMains"
+                data-model-value="store.state.filter.main"
+                data-update-model-value="setFilter('main', $event)"
+              />
+            </FilterDetail>
+          </Filter>
           <div className="filter">
             <span className="filter-name">等级：</span>
             <div
@@ -388,7 +333,7 @@ const ArtifactRight = (props: IProps) => {
               data-model-value="store.state.filter.lvRange"
               data-update-model-value="setFilter('lvRange', $event)"
             />
-          </div> */}
+          </div>
         </SectionContent>
       </FilterSection>
     </Container>
