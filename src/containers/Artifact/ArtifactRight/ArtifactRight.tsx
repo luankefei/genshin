@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import SectionTitle from "../SectionTitle";
-import Select from "../Select";
-import type { IOption } from "../Select";
+import FilterSection from "../FilterSection";
 
 import localeChs from "../../../utils/locale.chs";
-import artifactDict from "../../../utils/artifact.dict";
 import log from "../../../utils/log";
 import mona from "../../../utils/mona";
 import {
@@ -15,13 +13,13 @@ import {
   SectionContent,
   WeightSection,
   WeightButton,
-  FilterSection,
-  Filter,
-  FilterTitle,
-  FilterDetail,
+  // FilterSection,
+  // Filter,
+  // FilterTitle,
+  // FilterDetail,
 } from "./artifact-right.style";
 import { IArtifact } from "src/utils/mona.artifact";
-import { ArtifactList } from "../artifact.style";
+// import { ArtifactList } from "../artifact.style";
 
 const logProgress: string[] = [];
 
@@ -47,16 +45,6 @@ function validateFile(file: any): boolean {
   return true;
 }
 
-function countArtifactsByAttr(artifacts: IArtifact[], key: keyof IArtifact) {
-  let s: { [key: string]: number } = {};
-  for (let a of artifacts) {
-    // console.log("a[key].", a, key, a[key]);
-    let akey = a[key].toString();
-    s[akey] = akey in s ? s[akey] + 1 : 1;
-  }
-  return s;
-}
-
 type IProps = {
   weightMap: any;
   filterMap: any;
@@ -66,19 +54,6 @@ type IProps = {
 
 const ArtifactRight = (props: IProps) => {
   const { weightMap, filterMap, artifactList, onFileUploaded } = props;
-  const [filterOptionsMap, setFilterOptionsMap] = useState({
-    set: [],
-    slot: [],
-    mainKey: [],
-    location: [],
-    lock: [],
-  });
-
-  useEffect(() => {
-    // console.log("artifactList.length", JSON.stringify(artifactList));
-    generateFilters();
-    // }, [artifactList]);
-  }, []);
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
@@ -197,52 +172,6 @@ const ArtifactRight = (props: IProps) => {
   //   return s;
   // };
 
-  const restoreToOptionList = (dict: any, names: string[]) => {
-    const mapping = {
-      ...localeChs,
-      ...artifactDict,
-    };
-    // console.log("localeChs mapping", mapping);
-    names.forEach((n) => {
-      // let n = name === "mainKey" ? "mainKeys" : name;
-      const list = [];
-      console.log("------------------ forEach before", n, dict);
-      Object.keys(dict[n]).forEach((k) => {
-        console.log("------------------ forEach", mapping[n][k], dict[n][k], n, k, dict, mapping);
-        let key = n === "set" ? mapping[n][k].name : mapping[n][k];
-
-        // mainKey词条需要翻译
-        if (n === "mainKey") key = localeChs.affix[k];
-
-        list.push({
-          key, // OceanHuedClam,
-          value: k,
-          tip: dict[n][k],
-        });
-      });
-
-      dict[n] = list;
-
-      // TODO: 文字没有转成中文，需要查找原项目的代码
-      console.log("restoreToOptionList list: ", list);
-    });
-  };
-
-  const generateFilters = () => {
-    // TODO: 测试数据
-    const dict = {};
-    const names = ["set", "slot", "mainKey"];
-    // "mainKey", "location", "lock"];
-    names.forEach((key) => (dict[key] = countArtifactsByAttr(artifactList as any, key as keyof IArtifact)));
-
-    console.log("====== FilterOptionsMap dict", dict);
-    // restore
-    restoreToOptionList(dict, names);
-
-    console.log("countArtifactsByAttr", dict);
-    setFilterOptionsMap(dict as any);
-  };
-
   //   filterSets(state) {
   //     let ret = [{ key: "", value: "全部", tip: state.artifacts.length.toString() }],
   //         s = countArtifactAttr(state.artifacts, 'set')
@@ -273,69 +202,7 @@ const ArtifactRight = (props: IProps) => {
         <SectionContent>{renderWeightButtons()}</SectionContent>
       </WeightSection>
 
-      <FilterSection>
-        <SectionTitle title="筛选">
-          {/* <span data-show="store.state.useFilterPro" data-click="useFilterPro(false)">
-            基本
-          </span>
-          <span data-show="!store.state.useFilterPro" data-click="useFilterPro(true)">
-            高级
-          </span> */}
-        </SectionTitle>
-        <SectionContent data-show="!store.state.useFilterPro">
-          <Filter className="filter">
-            <FilterTitle>套装：</FilterTitle>
-            <FilterDetail>
-              <Select
-                value={filterMap.set}
-                // options={[{ key: "北京", value: "beijing", tip: "10" }]}
-                options={filterOptionsMap.set}
-                onSelect={() => undefined}
-                data-className="filter-ctrl"
-                data-items="store.getters.filterSets"
-                data-model-value="store.state.filter.set"
-                data-update-model-value="setFilter('set', $event)"
-              />
-            </FilterDetail>
-          </Filter>
-          <Filter>
-            <FilterTitle>部位：</FilterTitle>
-            <FilterDetail>
-              <Select
-                value={filterMap.slot}
-                options={filterOptionsMap.slot}
-                onSelect={() => undefined}
-                data-className="filter-ctrl"
-                data-items="store.getters.filterSlots"
-                data-update-model-value="setFilter('slot', $event)"
-              />
-            </FilterDetail>
-          </Filter>
-          <Filter>
-            <FilterTitle>主词条：</FilterTitle>
-            <FilterDetail>
-              <Select
-                value={filterMap.mainKey}
-                options={filterOptionsMap.mainKey}
-                onSelect={() => undefined}
-                data-className="filter-ctrl"
-                data-items="store.getters.filterMains"
-                data-model-value="store.state.filter.main"
-                data-update-model-value="setFilter('main', $event)"
-              />
-            </FilterDetail>
-          </Filter>
-          <div className="filter">
-            <span className="filter-name">等级：</span>
-            <div
-              range-slider
-              className="filter-ctrl"
-              data-model-value="store.state.filter.lvRange"
-              data-update-model-value="setFilter('lvRange', $event)"
-            />
-          </div>
-        </SectionContent>
-      </FilterSection>
+      <FilterSection filterMap={filterMap} artifactList={artifactList} />
     </Container>
   );
 };
