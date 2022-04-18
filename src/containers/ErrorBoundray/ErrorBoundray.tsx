@@ -44,7 +44,7 @@ class ErrorBoundray extends Component<TProps, TState> {
     return hasError ? (
       <ErrorPage>
         <div>{errorInfo.componentStack}</div>
-        <img alt="qrcode" src="/static/icons/close.png" />
+        <img alt="qrcode" src="/icons/close.png" />
         <div>好像出了点问题，页面空空如也</div>
       </ErrorPage>
     ) : (

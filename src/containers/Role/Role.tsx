@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import Image from "next/image";
 
 // import Modal from "../../components/Modal";
 import ElementFilter from "../../components/ElementFilter";
@@ -40,12 +41,12 @@ const Role = () => {
 
   useEffect(() => {
     // console.log("genshin.dev");
-    client.get("https://api.genshin.dev/characters").then((res) => {
-      console.log("api.genshin.dev res count: ", res.length);
-    });
+    // client.get("https://api.genshin.dev/characters").then((res) => {
+    //   console.log("api.genshin.dev res count: ", res.length);
+    // });
 
     // 从storage中获取数据恢复列表
-    console.log("准备恢复的数据", storage.get("characterList"));
+    // console.log("准备恢复的数据", storage.get("characterList"));
     setCharacterList(storage.get("characterList") || []);
   }, []);
 
@@ -142,7 +143,7 @@ const Role = () => {
         <tr key={c.enName}>
           <td width="7%">{index + 1}</td>
           <td width="20%" className="left middle" onClick={onTableCellClick(c, "name")}>
-            <img className="icon" src={`/static/characters/${c.enName}/icon`} alt={c.enName} />
+            <Image className="icon" src={`/characters/${c.enName}/icon`} alt={c.enName} />
             <span>{c.name}</span>
           </td>
           <td width="8%" onClick={onTableCellClick(c, "level")}>
@@ -212,8 +213,8 @@ const Role = () => {
         </div>
       </Container>
       <CharacterModal isOpen={characterModalVisible} character={character} onClose={onCharacterModalClose} />
-      {/* <WeaponModal isOpen={weaponModalVisible} character={character} onClose={onWeaponModalClose} />
-      <ArtifactModal isOpen={artifactModalVisible} character={character} onClose={onArtifactModalClose} /> */}
+      <WeaponModal isOpen={weaponModalVisible} character={character} onClose={onWeaponModalClose} />
+      <ArtifactModal isOpen={artifactModalVisible} character={character} onClose={onArtifactModalClose} />
     </Page>
   );
 };

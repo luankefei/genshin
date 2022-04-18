@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
+  z-index: 15;
 `;
 
 const Container = styled.div`
@@ -19,7 +20,7 @@ const Container = styled.div`
   max-height: calc(100% - 200px);
   flex-direction: column;
   overflow: auto;
-  z-index: 5;
+  z-index: 15;
 
   @media (max-width: 500px) {
     left: 0px;
@@ -32,10 +33,6 @@ const CloseButton = styled.button`
   top: 20px;
   right: 20px;
   background: transparent;
-
-  img {
-    width: 17px;
-  }
 `;
 
 export { Wrapper, Container, CloseButton };

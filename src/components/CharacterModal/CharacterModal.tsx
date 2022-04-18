@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
+import Image from "next/image";
 // import set from 'lodash/set'
 
 import Modal from "../Modal";
@@ -135,7 +136,7 @@ const CharacterModal = (props: IProps) => {
       });
 
     return characterList.map((c: string, index: number) => {
-      const avatar = `/static/characters/${c}/icon`;
+      const avatar = `/characters/${c}/icon`;
       const bgClassName = "character-bg-" + characterMap[c]?.rarity || "4";
 
       return (
@@ -159,7 +160,7 @@ const CharacterModal = (props: IProps) => {
       const name = artifactMap[item]?.data?.zh.name;
       return (
         <dd className="artifact" key={item} onClick={showArtifactModal(item)}>
-          <img className="icon" src={`/static/artifacts/${item}/circlet-of-logos`} alt={item} />
+          <Image className="icon" src={`/artifacts/${item}/circlet-of-logos`} alt={item} />
           <span>{name}</span>
           <span>{suffix}</span>
         </dd>
@@ -187,7 +188,7 @@ const CharacterModal = (props: IProps) => {
                 backgroundImage: `url(https://seelie.inmagi.com/img/characters/bg/${modalCharacter.enName}.png)`,
               }}
             >
-              <img src={`/static/characters/${modalCharacter.enName}/icon`} alt={modalCharacter.enName} />
+              <Image src={`/characters/${modalCharacter.enName}/icon`} alt={modalCharacter.enName} />
               <span>{modalCharacter.name}</span>
             </div>
             <Item>
@@ -214,7 +215,7 @@ const CharacterModal = (props: IProps) => {
               <section>
                 <dd className="multi">
                   <div onClick={showWeaponModal}>
-                    <img
+                    <Image
                       className="icon"
                       src={`/weapons/${modalCharacter.weapon.id}/icon`}
                       alt={modalCharacter.weapon.name}

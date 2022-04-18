@@ -4,6 +4,8 @@
 import { FC, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
+
 import { canUseDOM } from "../../utils/safeHTMLElement";
 import { Wrapper, CloseButton, Container } from "./modal-portal.style";
 
@@ -47,7 +49,7 @@ const ModalPortal: FC<ModalProps> = (props) => {
     open ? (
       <Wrapper>
         <CloseButton onClick={onClose}>
-          <img src="/static/icons/close.png" alt="关闭" />
+          <Image width="17" height="17" src="/icons/close.png" alt="关闭" />
         </CloseButton>
         <Container>
           <div>{props.children}</div>
