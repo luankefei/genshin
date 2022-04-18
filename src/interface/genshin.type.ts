@@ -33,4 +33,5 @@ export interface ICharacter {
     count: number;
   };
   score: number;
+  update?: string;
 }

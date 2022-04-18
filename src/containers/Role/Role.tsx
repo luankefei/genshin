@@ -8,6 +8,9 @@ import CharacterModal, { DEFAULT_WEAPON_DETAIL } from "../../components/Characte
 import { ClientContext } from "../../context/ClientProvider";
 import storage from "../../utils/storage";
 import genshinData from "../../utils/data";
+import { artifactMap } from "../../utils/artifact.data";
+import locale from "../../utils/locale.chs";
+
 import {
   Page,
   Header,
@@ -146,9 +149,9 @@ const Role = () => {
       return (
         <tr key={c.enName}>
           <td width="7%">{index + 1}</td>
-          <td width="20%" className="left middle" onClick={onTableCellClick(c, "name")}>
-            <Image className="icon" src={`/characters/${c.enName}/icon`} alt={c.enName} width="40" height="40" />
-            <span>{c.name}</span>
+          <td width="15%" className="left middle" onClick={onTableCellClick(c, "name")}>
+            <img className="icon" src={`/characters/${c.enName}/icon`} alt={c.enName} width="40" height="40" />
+            <span>{locale.character[c.name] || c.name}</span>
           </td>
           <td width="8%" onClick={onTableCellClick(c, "level")}>
             {c.level}
@@ -164,7 +167,7 @@ const Role = () => {
               <li>有效词条：{c.artifacts.count}</li>
               <li>主词条：{c.artifacts.main}</li>
               <li>双爆：{c.artifacts.critical_score}</li>
-              <li>套装：{c.artifacts.list.join(" / ")}</li>
+              <li>套装：{c.artifacts.list.map((item) => artifactMap[item]?.data?.zh.name).join(" / ")}</li>
             </ul>
           </td>
           <td width="16%" className="left" onClick={onTableCellClick(c, "weapon")}>
@@ -174,8 +177,11 @@ const Role = () => {
               <li>等级：{c.weapon.level}</li>
             </ul>
           </td>
-          <td width="12%" onClick={onTableCellClick(c, "score")}>
+          <td width="11%" onClick={onTableCellClick(c, "score")}>
             {c.score}
+          </td>
+          <td width="6%" onClick={onTableCellClick(c, "update")}>
+            {c.update}
           </td>
         </tr>
       );
@@ -210,6 +216,7 @@ const Role = () => {
                 <th>圣遗物（有效词条、充能、套装）</th>
                 <th>武器</th>
                 <th>练度打分（0-100）</th>
+                <th>最后更新</th>
               </tr>
             </thead>
             <tbody>{renderCharacterList()}</tbody>

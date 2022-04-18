@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import Image from "next/image";
+import datetime from "nd-datetime";
 // import set from 'lodash/set'
 
 import Modal from "../Modal";
@@ -43,6 +44,7 @@ const DEFAULT_CHARACTER_DETAIL: ICharacter = {
     count: 26.1,
   },
   score: 60,
+  update: datetime().format("yyyy-MM-dd"),
 };
 
 type IProps = {

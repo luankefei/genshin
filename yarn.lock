@@ -3743,6 +3743,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.npmmirror.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
+nd-datetime@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npmmirror.com/nd-datetime/-/nd-datetime-3.0.5.tgz#84fc5719111dfd9bb02d1071d633cbaf805daf26"
+  integrity sha512-S/cx1556JFqTSJfgBE/BeE2K3OE3kJGBGyOrVXs05FNMeOqyCZaDeio4YJDa44K6BEpbdCxUmimsjg7SBdxE2g==
+
 next-redux-wrapper@7.0.5:
   version "7.0.5"
   resolved "https://registry.npmmirror.com/next-redux-wrapper/-/next-redux-wrapper-7.0.5.tgz#109cd3fe02183b18fbd094924cfcbd21262039dc"
