@@ -143,7 +143,7 @@ const Role = () => {
         <tr key={c.enName}>
           <td width="7%">{index + 1}</td>
           <td width="20%" className="left middle" onClick={onTableCellClick(c, "name")}>
-            <Image className="icon" src={`/characters/${c.enName}/icon`} alt={c.enName} />
+            <Image className="icon" src={`/characters/${c.enName}/icon`} alt={c.enName} width="40" height="40" />
             <span>{c.name}</span>
           </td>
           <td width="8%" onClick={onTableCellClick(c, "level")}>

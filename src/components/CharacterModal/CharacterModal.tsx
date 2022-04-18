@@ -160,7 +160,7 @@ const CharacterModal = (props: IProps) => {
       const name = artifactMap[item]?.data?.zh.name;
       return (
         <dd className="artifact" key={item} onClick={showArtifactModal(item)}>
-          <Image className="icon" src={`/artifacts/${item}/circlet-of-logos`} alt={item} />
+          <img className="icon" src={`/artifacts/${item}/circlet-of-logos`} alt={item} />
           <span>{name}</span>
           <span>{suffix}</span>
         </dd>
@@ -188,7 +188,12 @@ const CharacterModal = (props: IProps) => {
                 backgroundImage: `url(https://seelie.inmagi.com/img/characters/bg/${modalCharacter.enName}.png)`,
               }}
             >
-              <Image src={`/characters/${modalCharacter.enName}/icon`} alt={modalCharacter.enName} />
+              <img
+                src={`/characters/${modalCharacter.enName}/icon`}
+                alt={modalCharacter.enName}
+                // width="56"
+                // height="5656565656"
+              />
               <span>{modalCharacter.name}</span>
             </div>
             <Item>
@@ -219,6 +224,8 @@ const CharacterModal = (props: IProps) => {
                       className="icon"
                       src={`/weapons/${modalCharacter.weapon.id}/icon`}
                       alt={modalCharacter.weapon.name}
+                      width="40"
+                      height="40"
                     />
                     <span>{modalCharacter.weapon.name}</span>
                   </div>

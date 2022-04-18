@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import Modal from "../../components/Modal";
+import Image from "next/image";
+
 import { ICharacter, IWeaponData } from "../../interface/genshin.type";
 // import { IWeaponData } from "../../interface/genshin.type";
 
@@ -60,7 +62,14 @@ const WeaponModal = (props: IProps) => {
               backgroundImage: `url(https://seelie.inmagi.com/img/characters/bg/${character && character.enName}.png)`,
             }}
           >
-            <img className="icon" src="/weapons/kaguras-verity/icon" alt="kaguras-verity" />
+            <Image
+              className="icon"
+              src="/weapons/kaguras-verity/icon"
+              alt="kaguras-verity"
+              layout="fill"
+              width="40"
+              height="40"
+            />
             <span>神乐之真意</span>
           </div>
           <div>
