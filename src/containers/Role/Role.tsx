@@ -57,6 +57,7 @@ const Role = () => {
   };
 
   const onTableCellClick = (character: ICharacter, key: string) => () => {
+    console.log("click", character);
     setCharacter(character);
     if (key === "weapon") return console.log("showWeaponModal");
 
@@ -75,7 +76,7 @@ const Role = () => {
   };
 
   const onCharacterModalClose = (state?: string, character?: ICharacter) => {
-    // console.log("onCharacterModalClose");
+    console.log("onCharacterModalClose", state);
     // 修改角色数据
     if ((state === "onsubmit" || state === "onselect") && character) {
       const obj: ICharacter = JSON.parse(JSON.stringify(character));
@@ -104,6 +105,9 @@ const Role = () => {
 
     // 弹出圣遗物浮层
     if (state === "showArtifact") return setArtifactModalVisible(true);
+
+    // 只关闭
+    if (!state) setCharacter(null);
 
     // 默认行为：关闭角色浮层
     setCharacterModalVisible(false);

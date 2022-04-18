@@ -58,15 +58,17 @@ const CharacterModal = (props: IProps) => {
   const [modalCharacter, setModalCharacter] = useState(character);
   const [elementFilter, setElementFilter] = useState("");
 
+  console.log("character", modalCharacter);
+
   useEffect(() => {
     // console.log("CharacterModal useEffect", isOpen);
     setVisible(isOpen);
   }, [isOpen]);
 
   useEffect(() => {
-    // console.log("----------------------------------- character change", character);
+    console.log("----------------------------------- character change", character);
     setModalCharacter(character);
-  }, [character?.weapon]);
+  }, [character]);
 
   const onModalClose = () => {
     // setVisible(false);
