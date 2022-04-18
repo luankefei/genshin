@@ -88,7 +88,12 @@ const CharacterModal = (props: IProps) => {
   // 修改角色字段
   const onCharacterChange = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
     if (!modalCharacter) return;
-    baseSet(modalCharacter, key, e.target.value);
+
+    const obj = JSON.parse(JSON.stringify(modalCharacter));
+
+    // 注意 baseSet 对 obj 直接修改
+    baseSet(obj, key, e.target.value);
+    setModalCharacter(obj);
   };
 
   const showWeaponModal = () => {
@@ -203,17 +208,42 @@ const CharacterModal = (props: IProps) => {
               <section>
                 <dd>
                   <span>等级</span>
-                  <input type="text" placeholder="90" onChange={onCharacterChange("level")} />
+                  <input
+                    type="text"
+                    value={modalCharacter.level}
+                    placeholder="90"
+                    onChange={onCharacterChange("level")}
+                  />
                 </dd>
                 <dd>
                   <span>命座</span>
-                  <input type="text" placeholder="0" onChange={onCharacterChange("constellation")} />
+                  <input
+                    type="text"
+                    value={modalCharacter.constellation}
+                    placeholder="0"
+                    onChange={onCharacterChange("constellation")}
+                  />
                 </dd>
                 <dd className="multi">
                   <span>天赋</span>
-                  <input type="text" placeholder="0" onChange={onCharacterChange("talents.a")} />
-                  <input type="text" placeholder="0" onChange={onCharacterChange("talents.e")} />
-                  <input type="text" placeholder="0" onChange={onCharacterChange("talents.q")} />
+                  <input
+                    type="text"
+                    value={modalCharacter.talents.a}
+                    placeholder="0"
+                    onChange={onCharacterChange("talents.a")}
+                  />
+                  <input
+                    type="text"
+                    value={modalCharacter.talents.e}
+                    placeholder="0"
+                    onChange={onCharacterChange("talents.e")}
+                  />
+                  <input
+                    type="text"
+                    value={modalCharacter.talents.q}
+                    placeholder="0"
+                    onChange={onCharacterChange("talents.q")}
+                  />
                 </dd>
               </section>
             </Item>
