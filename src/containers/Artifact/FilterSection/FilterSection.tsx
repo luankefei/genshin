@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import RangeSlider from "react-rangeslider";
+import "react-rangeslider/lib/index.css";
 
 import SectionTitle from "../SectionTitle";
 import Select from "../Select";
@@ -89,6 +90,10 @@ const FilterSection = (props: IProps) => {
     setFilterOptionsMap(dict as any);
   };
 
+  const onLevelRangeChange = (value: number) => {
+    console.log("onLevelRangeChange", value);
+  };
+
   return (
     <Container>
       <SectionTitle title="筛选">
@@ -142,17 +147,24 @@ const FilterSection = (props: IProps) => {
             />
           </FilterDetail>
         </Filter>
-        <div className="filter">
-          <span className="filter-name">等级：</span>
-
-          <RangeSlider value={filterMap.lvRange} onChange={() => undefined} />
-          <div
+        <Filter>
+          <FilterTitle>等级：</FilterTitle>
+          <FilterDetail>
+            <RangeSlider
+              min={0}
+              max={20}
+              value={filterMap.lvRange}
+              orientation="horizontal"
+              onChange={onLevelRangeChange}
+            />
+          </FilterDetail>
+          {/* <div
             range-slider
             className="filter-ctrl"
             data-model-value="store.state.filter.lvRange"
             data-update-model-value="setFilter('lvRange', $event)"
-          />
-        </div>
+          /> */}
+        </Filter>
       </SectionContent>
     </Container>
   );

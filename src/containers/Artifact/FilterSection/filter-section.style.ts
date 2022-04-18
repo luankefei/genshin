@@ -17,4 +17,17 @@ export const FilterTitle = styled.dt`
 
 export const FilterDetail = styled.dd`
   width: 300px;
+
+  .rangeslider-horizontal {
+    height: 6px;
+  }
+
+  .rangeslider-horizontal .rangeslider__handle {
+    width: 20px;
+    height: 20px;
+  }
+
+  .rangeslider-horizontal .rangeslider__handle:after {
+    display: none;
+  }
 `;

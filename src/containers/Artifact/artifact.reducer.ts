@@ -12,7 +12,7 @@ const initialState = {
     mainKey: "", // mainKey should be better...
     location: "all", // 'all' is a temporary workaround, fix it later
     lock: "", // '', 'true', 'false'
-    lvRange: [0, 20],
+    lvRange: 0,
   },
   weightMap: { hp: 0, atk: 0, def: 0, hpp: 0, atkp: 0.5, defp: 0, em: 0.5, er: 0.5, cr: 1, cd: 1 },
 };
