@@ -60,9 +60,8 @@ const Role = () => {
   };
 
   const onTableCellClick = (character: ICharacter, key: string) => () => {
-    console.log("click", character);
     setCharacter(character);
-    if (key === "weapon") return console.log("showWeaponModal");
+    if (key === "weapon") console.log("showWeaponMoodal");
 
     showCharacterModal();
   };

@@ -6,6 +6,7 @@ import datetime from "nd-datetime";
 
 import Modal from "../Modal";
 import ElementFilter from "../ElementFilter";
+import locale from "../../utils/locale.chs";
 import { characters, characterMap } from "../../utils/data";
 import { artifactMap } from "../../utils/artifact.data";
 import { baseSet } from "../../utils";
@@ -264,10 +265,22 @@ const CharacterModal = (props: IProps) => {
                     <span>{modalCharacter.weapon.name}</span>
                   </div>
 
-                  <label htmlFor="refining">精炼</label>
-                  <input id="refining" type="text" placeholder="1" />
-                  <label htmlFor="">白值</label>
-                  <input id="attack" type="text" placeholder="0" />
+                  <label htmlFor="weapon-affix">精炼</label>
+                  <input
+                    id="weapon-affix"
+                    type="text"
+                    placeholder="1"
+                    value={modalCharacter.weapon.affix}
+                    onChange={onCharacterChange("weapon.affix")}
+                  />
+                  <label htmlFor="weapon-level">等级</label>
+                  <input
+                    id="weapon-level"
+                    type="text"
+                    placeholder="0"
+                    value={modalCharacter.weapon.level}
+                    onChange={onCharacterChange("weapon.level")}
+                  />
                 </dd>
               </section>
             </Item>
