@@ -62,8 +62,8 @@ const WeaponModal = (props: IProps) => {
               backgroundImage: `url(https://seelie.inmagi.com/img/characters/bg/${character && character.enName}.png)`,
             }}
           >
-            <img className="icon" src="/weapons/kaguras-verity/icon" alt="kaguras-verity" />
-            <span>神乐之真意</span>
+            <img className="icon" src={`/weapons/${character?.weapon.id}/icon`} alt={character?.weapon.id} />
+            <span>{character?.weapon.name}</span>
           </div>
           <div>
             <WeaponList>{renderWeaponList()}</WeaponList>

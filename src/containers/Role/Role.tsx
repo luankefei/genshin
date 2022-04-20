@@ -7,7 +7,7 @@ import CharacterModal, { DEFAULT_WEAPON_DETAIL } from "../../components/Characte
 
 import { ClientContext } from "../../context/ClientProvider";
 import storage from "../../utils/storage";
-import genshinData from "../../utils/data";
+// import genshinData from "../../utils/data";
 import { artifactMap } from "../../utils/artifact.data";
 import locale from "../../utils/locale.chs";
 

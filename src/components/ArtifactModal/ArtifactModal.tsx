@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import Image from "next/image";
 
 import Modal from "../../components/Modal";
 import { Container, WeaponModalDetail, WeaponList } from "./artifact-modal.style";
@@ -15,6 +14,10 @@ type IProps = {
 const ArtifactModal = (props: IProps) => {
   const { isOpen, character, onClose } = props;
   const [visible, setVisible] = useState(isOpen);
+
+  useEffect(() => {
+    if (isOpen !== visible) setVisible(isOpen);
+  }, [isOpen, visible]);
 
   const onModalClose = () => {
     // setElementFilter("");
