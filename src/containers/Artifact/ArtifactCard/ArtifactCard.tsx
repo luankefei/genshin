@@ -7,19 +7,10 @@ import data from "../../../utils/mona.data";
 import { Container, Header, Main } from "./artifact-card.style";
 
 const ArtifactCard = (props: IArtifact) => {
-  //   <artifact-card
-  //   v-for="a in store.state.filteredArtifacts"
-  //   :artifact="a"
-  //   :select-mode="selectMode"
-  //   :selected="selected(a.data.index)"
-  //   @flip-select="flipSelect(a.data.index, $event)"
-  //   @flip-lock="flipLock(a.data.index)"
-  //   @edit="edit(a.data.index)"
-  // />
   const pieceName = () => {
     if (props.set in locale.set && props.slot in locale.slot) {
-      let name = locale.set[props.set].name;
-      let slot = locale.slot[props.slot][2]; // "花","羽"...
+      const name = locale.set[props.set].name;
+      const slot = locale.slot[props.slot][2]; // "花","羽"...
       return `${name} · ${slot}`;
     } else {
       return "未知";
@@ -41,8 +32,15 @@ const ArtifactCard = (props: IArtifact) => {
 
   // 图片url是使用genshin.dev的数据，文件名使用全小写“-”连接，mona数据中名字使用大驼峰，需要转换
   const bigCamelToKebab = (str) => str.replaceAll(/[A-Z]/g, (c) => "-" + c.toLowerCase()).substring(1);
+  const logoNameMap = {
+    circlet: "circlet-of-logos",
+    flower: "flower-of-life",
+    goblet: "goblet-of-eonothem",
+    plume: "plume-of-death",
+    sands: "sands-of-eon",
+  };
 
-  const logoImageUrl = `/artifacts/${bigCamelToKebab(props.set)}/circlet-of-logos`;
+  const logoImageUrl = `/artifacts/${bigCamelToKebab(props.set)}/${logoNameMap[props.slot]}`;
 
   // 圣遗物副词条
   const renderMinors = () => {
