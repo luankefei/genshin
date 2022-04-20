@@ -33,15 +33,12 @@ export const Header = styled.div`
   background: linear-gradient(165deg, rgba(102, 87, 88, 1) 0%, rgba(214, 169, 90, 1) 100%);
 
   .head-stat {
-    display: flex;
-    flex-direction: column;
-    // box-sizing: border-box;
     width: 100px;
-    padding: 10px 15px;
+    padding: 10px 0 10px 15px;
     color: white;
+    line-height: 1.6;
 
     .piece-name {
-      flex: 1;
       white-space: nowrap;
       z-index: 1;
     }
@@ -97,6 +94,7 @@ export const Main = styled.div`
   .minor-affixes {
     color: #333;
     padding: 0 15px;
+    line-height: 1.5;
   }
 
   .affix-numbers {
