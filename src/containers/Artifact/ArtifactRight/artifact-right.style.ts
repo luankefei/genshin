@@ -19,7 +19,7 @@ export const UploadMessage = styled.p`
   color: #66c238;
 `;
 
-export const SectionContent = styled.div`
+const sectionContent = `
   margin-top: 24px;
   padding: 0 50px;
 
@@ -38,6 +38,10 @@ export const SectionContent = styled.div`
     user-select: none;
     display: inline-block;
   }
+`;
+
+export const SectionContent = styled.div`
+  ${sectionContent}
 `;
 
 const primaryColor = "#3694ff";
@@ -104,4 +108,9 @@ export const FilterTitle = styled.dt`
 
 export const FilterDetail = styled.dd`
   width: 300px;
+`;
+
+export const StartContainer = styled.div`
+  ${sectionContent}
+  text-align: center;
 `;

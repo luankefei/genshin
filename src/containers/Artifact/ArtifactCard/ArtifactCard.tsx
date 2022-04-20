@@ -5,6 +5,7 @@ import locale from "../../../utils/locale.chs";
 import data from "../../../utils/mona.data";
 
 import { Container, Header, Main } from "./artifact-card.style";
+import artifactDict from "src/utils/artifact.dict";
 
 const ArtifactCard = (props: IArtifact) => {
   const pieceName = () => {
@@ -69,6 +70,8 @@ const ArtifactCard = (props: IArtifact) => {
     ));
   };
 
+  console.log("data", props.data);
+
   // computed tofixed
   const affnum = {
     cur: props.data.affnum.cur.toFixed(1),
@@ -94,14 +97,17 @@ const ArtifactCard = (props: IArtifact) => {
           <span className="cur-an">{props.data.affnum.cur.toFixed(1)}</span>
         </div>
         <div className="minor-affixes">{renderMinors()}</div>
-        <div className="affix-numbers" v-if="artifact.level < 20">
-          <div className="min-an">最小 {affnum.min}</div>
-          <div className="avg-an">期望 {affnum.avg}</div>
-          <div className="max-an">最大 {affnum.max}</div>
-        </div>
-        <div className="full-an" data-else={true}>
-          已满级，{affnum.cur}词条
-        </div>
+        {props.level < 20 ? (
+          <div className="affix-numbers">
+            <div className="min-an">最小 {affnum.min}</div>
+            <div className="avg-an">期望 {affnum.avg}</div>
+            <div className="max-an">最大 {affnum.max}</div>
+          </div>
+        ) : (
+          <div className="full-an" data-else={true}>
+            已满级，{affnum.cur}词条
+          </div>
+        )}
       </Main>
     </Container>
   );

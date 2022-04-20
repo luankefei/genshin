@@ -28,7 +28,8 @@ const Select = (props: IProps) => {
   // };
 
   const onOptionSelect = (op: IOption) => () => {
-    console.log("onOptionSelect", op);
+    props.onSelect(op.value);
+    // console.log("onOptionSelect", op);
   };
 
   const renderOptions = () => {

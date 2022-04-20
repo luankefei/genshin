@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { compose } from "redux";
+import { connect } from "react-redux";
 import RangeSlider from "react-rangeslider";
+
 import "react-rangeslider/lib/index.css";
 
 import SectionTitle from "../SectionTitle";
@@ -11,6 +14,7 @@ import { IArtifact } from "src/utils/mona.artifact";
 
 import { Container, Filter, FilterTitle, FilterDetail } from "./filter-section.style";
 import { SectionContent } from "../ArtifactRight/artifact-right.style";
+import { actions } from "../artifact.reducer";
 
 function countArtifactsByAttr(artifacts: IArtifact[], key: keyof IArtifact) {
   let s: { [key: string]: number } = {};
@@ -25,10 +29,13 @@ function countArtifactsByAttr(artifacts: IArtifact[], key: keyof IArtifact) {
 type IProps = {
   filterMap: any;
   artifactList: any[];
+  updateFilterMap: (payload: any) => void;
 };
 
 const FilterSection = (props: IProps) => {
-  const { filterMap, artifactList } = props;
+  const { filterMap, artifactList, updateFilterMap } = props;
+
+  console.log("filterSection", filterMap);
 
   const [filterOptionsMap, setFilterOptionsMap] = useState({
     set: [],
@@ -76,7 +83,6 @@ const FilterSection = (props: IProps) => {
   };
 
   const generateFilters = () => {
-    // TODO: 测试数据
     const dict = {};
     const names = ["set", "slot", "mainKey"];
     // "mainKey", "location", "lock"];
@@ -92,6 +98,18 @@ const FilterSection = (props: IProps) => {
 
   const onLevelRangeChange = (value: number) => {
     console.log("onLevelRangeChange", value);
+  };
+
+  const onFilterChange = (key: string) => (value: string | number) => {
+    console.log("setFilter", key, value);
+    // 注意这里直接修改filterMap会导致组件不刷新
+    const obj = JSON.parse(JSON.stringify(filterMap));
+    obj[key] = value;
+
+    // 同步filterMap的修改到store
+    updateFilterMap({
+      filterMap: obj,
+    });
   };
 
   return (
@@ -115,7 +133,7 @@ const FilterSection = (props: IProps) => {
               onSelect={() => undefined}
               data-className="filter-ctrl"
               data-items="store.getters.filterSets"
-              data-model-value="store.state.filter.set"
+              data-model-value="store.filterMap.set"
               data-update-model-value="setFilter('set', $event)"
             />
           </FilterDetail>
@@ -139,10 +157,10 @@ const FilterSection = (props: IProps) => {
             <Select
               value={filterMap.mainKey}
               options={filterOptionsMap.mainKey}
-              onSelect={() => undefined}
+              onSelect={onFilterChange("mainKey")}
               data-className="filter-ctrl"
               data-items="store.getters.filterMains"
-              data-model-value="store.state.filter.main"
+              data-model-value="store.filterMap.main"
               data-update-model-value="setFilter('main', $event)"
             />
           </FilterDetail>
@@ -161,7 +179,7 @@ const FilterSection = (props: IProps) => {
           {/* <div
             range-slider
             className="filter-ctrl"
-            data-model-value="store.state.filter.lvRange"
+            data-model-value="store.filterMap.lvRange"
             data-update-model-value="setFilter('lvRange', $event)"
           /> */}
         </Filter>
@@ -170,4 +188,16 @@ const FilterSection = (props: IProps) => {
   );
 };
 
-export default FilterSection;
+// }const mapStateToProps = createStructuredSelector({
+//   weightMap: makeSelectWeightMap(),
+//   filterMap: makeSelectFilterMap(),
+//   weightMapInUse: makeSelectWeightMapInUse(),
+// });
+
+const withConnect = connect(null, {
+  updateFilterMap: actions.updateFilterMap,
+});
+
+export default withConnect(FilterSection);
+// ose(withConnect, withRouter)(Artifact);
+// export default FilterSection;

@@ -13,6 +13,7 @@ import {
   SectionContent,
   WeightSection,
   WeightButton,
+  StartContainer,
   // FilterSection,
   // Filter,
   // FilterTitle,
@@ -47,13 +48,15 @@ function validateFile(file: any): boolean {
 
 type IProps = {
   weightMap: any;
+  weightMapInUse: any;
   filterMap: any;
   artifactList: any[];
-  onFileUploaded: (list: IArtifact[]) => void;
+  onFilterSubmit: (filterMap: any) => void;
+  onFileUploaded: (artifactList: IArtifact[]) => void;
 };
 
 const ArtifactRight = (props: IProps) => {
-  const { weightMap, filterMap, artifactList, onFileUploaded } = props;
+  const { weightMap, weightMapInUse, filterMap, artifactList, onFileUploaded } = props;
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
@@ -154,6 +157,10 @@ const ArtifactRight = (props: IProps) => {
     });
   };
 
+  const submitFilter = () => {
+    console.log("点击开始计算 submitFilter");
+  };
+
   // const countArtifactsByAttr = (artifacts: IArtifact[], key: keyof IArtifact) => {
   //   // key: string;
   //   // value: string | number;
@@ -203,6 +210,12 @@ const ArtifactRight = (props: IProps) => {
       </WeightSection>
 
       <FilterSection filterMap={filterMap} artifactList={artifactList} />
+
+      <StartContainer>
+        <button className="button" onClick={submitFilter}>
+          开始计算
+        </button>
+      </StartContainer>
     </Container>
   );
 };
