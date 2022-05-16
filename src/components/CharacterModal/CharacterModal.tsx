@@ -11,7 +11,7 @@ import { characters, characterMap } from "../../utils/data";
 import { artifactMap } from "../../utils/artifact.data";
 import { baseSet } from "../../utils";
 
-import { ICharacter, IWeapon } from "../../interface/genshin.type";
+import { ICharacter, IWeapon, IWeaponData } from "../../interface/genshin.type";
 import {
   Container,
   // ElementFilter,
@@ -22,12 +22,12 @@ import {
 } from "./character-modal.style";
 import weaponMap from "../../utils/weapon.data";
 
-export const DEFAULT_WEAPON_DETAIL: IWeapon = {
-  id: "kaguras-verity",
-  name: "神乐之真意",
-  affix: 5,
-  level: 90,
-};
+// export const DEFAULT_WEAPON_DETAIL: IWeapon = {
+//   id: "kaguras-verity",
+//   name: "神乐之真意",
+//   affix: 5,
+//   level: 90,
+// };
 
 const DEFAULT_CHARACTER_DETAIL: ICharacter = {
   enName: "yae",
@@ -35,7 +35,7 @@ const DEFAULT_CHARACTER_DETAIL: ICharacter = {
   level: 90,
   talents: { a: 0, e: 9, q: 9 },
   constellation: 6,
-  weapon: DEFAULT_WEAPON_DETAIL,
+  weapon: null,
   weaponType: "sword",
   artifacts: {
     list: ["archaic-petra", "adventurer"],
@@ -50,31 +50,34 @@ const DEFAULT_CHARACTER_DETAIL: ICharacter = {
 
 type IProps = {
   isOpen: boolean;
-  character: ICharacter | null;
+  weapon: IWeapon;
+  character: ICharacter;
   onClose: (state?: string, character?: ICharacter) => void;
 };
 
 const CharacterModal = (props: IProps) => {
-  const { isOpen, character, onClose } = props;
-  // console.log("----------------------------------- character modal render", isOpen, character);
+  const { isOpen, character, weapon, onClose } = props;
   const [visible, setVisible] = useState(isOpen);
   const [modalCharacter, setModalCharacter] = useState(character);
   const [elementFilter, setElementFilter] = useState("");
 
-  console.log("character", modalCharacter);
-
   useEffect(() => {
-    // console.log("CharacterModal useEffect", isOpen);
     setVisible(isOpen);
   }, [isOpen]);
 
+  // hook从Role页面点击头像打开角色浮层
   useEffect(() => {
-    console.log("----------------------------------- character change", character);
     setModalCharacter(character);
   }, [character]);
 
+  // hook已经修改了角色数据，然后修改武器的情况
+  // useEffect(() => {
+  // modalCharacter.weapon = character.weapon;
+  // setModalCharacter(modalCharacter);
+  // }
+  // }, [weapon]);
+
   const onModalClose = () => {
-    // setVisible(false);
     setElementFilter("");
     setModalCharacter(null);
     onClose();
@@ -82,7 +85,6 @@ const CharacterModal = (props: IProps) => {
 
   // 确认修改
   const onSubmit = () => {
-    // console.log("onSubmit", character);
     if (modalCharacter) {
       onClose("onsubmit", modalCharacter);
     }
@@ -110,7 +112,6 @@ const CharacterModal = (props: IProps) => {
 
   const showArtifactModal = (artifact: string) => () => {
     onClose("showArtifact", modalCharacter || undefined);
-    console.log("showArtifact", artifact);
   };
 
   const clickModalCharacter = (name: string, index: number) => {
@@ -123,17 +124,15 @@ const CharacterModal = (props: IProps) => {
     const recommendWeaponName = Object.keys(weaponMap).find(
       (key) => weaponMap[key].type.toLowerCase() === obj.weaponType
     );
-    obj.weapon = { ...DEFAULT_WEAPON_DETAIL, ...weaponMap[recommendWeaponName as string] };
-    obj.weapon.id = obj.weapon.id.replaceAll("_", "-");
 
-    console.log(weaponMap[recommendWeaponName as string], obj.weaponType, weaponMap);
+    // obj.weapon = { ...DEFAULT_WEAPON_DETAIL, ...weaponMap[recommendWeaponName as string] };
+    obj.weapon = weapon;
+    obj.weapon.id = obj.weapon.id.replaceAll("_", "-");
 
     setModalCharacter(obj);
 
     // 临时保存，将character带回上层，注意这里不会触发关闭
     onClose("onselect", obj);
-
-    console.log("clickModalCharacter", name, index);
   };
 
   const renderCharacterList = () => {
@@ -178,6 +177,9 @@ const CharacterModal = (props: IProps) => {
     });
   };
 
+  // const renderWeapon = () => (
+  // );
+
   return (
     <Modal visible={visible} onClose={onModalClose}>
       <Container>
@@ -198,12 +200,7 @@ const CharacterModal = (props: IProps) => {
                 backgroundImage: `url(https://seelie.inmagi.com/img/characters/bg/${modalCharacter.enName}.png)`,
               }}
             >
-              <img
-                src={`/characters/${modalCharacter.enName}/icon`}
-                alt={modalCharacter.enName}
-                // width="56"
-                // height="5656565656"
-              />
+              <img src={`/characters/${modalCharacter.enName}/icon`} alt={modalCharacter.enName} />
               <span>{modalCharacter.name}</span>
             </div>
             <Item>
@@ -257,12 +254,12 @@ const CharacterModal = (props: IProps) => {
                   <div onClick={showWeaponModal}>
                     <Image
                       className="icon"
-                      src={`/weapons/${modalCharacter.weapon.id}/icon`}
-                      alt={modalCharacter.weapon.name}
+                      src={`/weapons/${weapon?.id}/icon`}
+                      alt={weapon?.name}
                       width="40"
                       height="40"
                     />
-                    <span>{modalCharacter.weapon.name}</span>
+                    <span>{weapon?.name}</span>
                   </div>
 
                   <label htmlFor="weapon-affix">精炼</label>
@@ -270,15 +267,15 @@ const CharacterModal = (props: IProps) => {
                     id="weapon-affix"
                     type="text"
                     placeholder="1"
-                    value={modalCharacter.weapon.affix}
+                    value={modalCharacter?.weapon?.affix}
                     onChange={onCharacterChange("weapon.affix")}
                   />
                   <label htmlFor="weapon-level">等级</label>
                   <input
                     id="weapon-level"
                     type="text"
-                    placeholder="0"
-                    value={modalCharacter.weapon.level}
+                    placeholder="90"
+                    value={modalCharacter?.weapon?.level}
                     onChange={onCharacterChange("weapon.level")}
                   />
                 </dd>

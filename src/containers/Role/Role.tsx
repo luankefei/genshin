@@ -1,41 +1,32 @@
 import React, { useEffect, useState, useContext } from "react";
-import Image from "next/image";
 
-// import Modal from "../../components/Modal";
 import ElementFilter from "../../components/ElementFilter";
 import CharacterModal, { DEFAULT_WEAPON_DETAIL } from "../../components/CharacterModal";
 
 import { ClientContext } from "../../context/ClientProvider";
 import storage from "../../utils/storage";
-// import genshinData from "../../utils/data";
 import { artifactMap } from "../../utils/artifact.data";
 import locale from "../../utils/locale.chs";
 
-import {
-  Page,
-  Header,
-  Container,
-  // CharacterModal,
-  // Characters,
-  // CharacterDetail,
-  // Item,
-  // GroupItem,
-  // Elements,
-  // ElementFilter,
-} from "./role.style";
+import { Page, Header, Container } from "./role.style";
 import WeaponModal from "../../components/WeaponModal";
 import ArtifactModal from "../../components/ArtifactModal";
 
-import { ICharacter, IWeaponData } from "../../interface/genshin.type";
-
-// import charactersLocale from "../../utils/characters_cn.json";
-// import logo from "./logo.svg";
+import { ICharacter, IWeapon, IWeaponData } from "../../interface/genshin.type";
 
 const Role = () => {
   const client = useContext(ClientContext);
+
+  // 当前选中的角色
   const [character, setCharacter] = useState<ICharacter | null>(null);
+
+  // 当前选中的角色的武器
+  const [weapon, setWeapon] = useState<IWeapon | null>(null);
+
+  // 页面渲染的角色列表
   const [characterList, setCharacterList] = useState<ICharacter[]>([]);
-  // const [modalCharacter, setModalCharacter] = useState("");
+
+  // 三个浮层状态
   const [characterModalVisible, setCharacterModalVisible] = useState(false);
   const [weaponModalVisible, setWeaponModalVisible] = useState(false);
   const [artifactModalVisible, setArtifactModalVisible] = useState(false);
@@ -43,24 +34,21 @@ const Role = () => {
   // const [weaponModalVisible, setWeaponModalVisible] = useState(false);
 
   useEffect(() => {
-    // console.log("genshin.dev");
     // client.get("https://api.genshin.dev/characters").then((res) => {
     //   console.log("api.genshin.dev res count: ", res.length);
     // });
 
-    // 从storage中获取数据恢复列表
-    // console.log("准备恢复的数据", storage.get("characterList"));
+    // TODO: 暂时从storage中获取数据恢复列表
     setCharacterList(storage.get("characterList") || []);
   }, []);
 
   const showCharacterModal = () => {
-    // console.log("showModal");
     setCharacterModalVisible(true);
-    // setVisible(true);
   };
 
   const onTableCellClick = (character: ICharacter, key: string) => () => {
     setCharacter(character);
+    setWeapon({ ...character.weapon, id: character.weapon.id.replaceAll("_", "-") });
     if (key === "weapon") console.log("showWeaponMoodal");
 
     showCharacterModal();
@@ -78,12 +66,10 @@ const Role = () => {
   };
 
   const onCharacterModalClose = (state?: string, character?: ICharacter) => {
-    console.log("onCharacterModalClose", state);
     // 修改角色数据
     if ((state === "onsubmit" || state === "onselect") && character) {
       const obj: ICharacter = JSON.parse(JSON.stringify(character));
 
-      // console.log("------------------- set character", obj, state);
       setCharacter(obj);
 
       // case 1: 不将数据带回列表
@@ -116,19 +102,22 @@ const Role = () => {
   };
 
   const onWeaponModalClose = (state?: string, weapon?: IWeaponData) => {
-    // console.warn("onWeaponModalClose", state, weapon, character);
     if (state === "onselect" && weapon && character) {
-      character.weapon = { ...JSON.parse(JSON.stringify(DEFAULT_WEAPON_DETAIL)), ...weapon };
-      character.weapon.id = character.weapon.id.replaceAll("_", "-");
+      // 5.16 由于函数式组件的浅比较问题 这里尝试不再更新到character
+      const weaponObj = { ...DEFAULT_WEAPON_DETAIL, ...character.weapon, ...weapon };
+      weaponObj.id = weaponObj.id.replaceAll("_", "-");
+      setWeapon(weaponObj);
 
-      setCharacter(character);
+      // character.weapon = { ...JSON.parse(JSON.stringify(DEFAULT_WEAPON_DETAIL)), ...weapon };
+      // character.weapon.id = character.weapon.id.replaceAll("_", "-");
+
+      setCharacter({ ...character, weapon: weaponObj });
 
       // TODO: 更新列表
       // setCharacterModalVisible(true);
     }
 
     setWeaponModalVisible(false);
-    // console.log("onWeaponModalClose");
   };
 
   const onArtifactModalClose = (state?: string, weapon?: IWeaponData) => {
@@ -222,7 +211,12 @@ const Role = () => {
           </table>
         </div>
       </Container>
-      <CharacterModal isOpen={characterModalVisible} character={character} onClose={onCharacterModalClose} />
+      <CharacterModal
+        isOpen={characterModalVisible}
+        weapon={weapon}
+        character={character}
+        onClose={onCharacterModalClose}
+      />
       <WeaponModal isOpen={weaponModalVisible} character={character} onClose={onWeaponModalClose} />
       <ArtifactModal isOpen={artifactModalVisible} character={character} onClose={onArtifactModalClose} />
     </Page>

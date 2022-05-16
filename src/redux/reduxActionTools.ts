@@ -12,7 +12,7 @@ const ASYNC_PHASES = {
 
 const identity = (id) => id;
 
-function createAction(type, payloadCreator, metaCreator?) {
+function createAction(type, payloadCreator, metaCreator) {
   const finalActionCreator = typeof payloadCreator === "function" ? payloadCreator : identity;
   return (...args) => {
     const action = {

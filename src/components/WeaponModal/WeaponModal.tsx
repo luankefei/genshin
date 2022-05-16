@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import Modal from "../../components/Modal";
 import Image from "next/image";
 
-import { ICharacter, IWeaponData } from "../../interface/genshin.type";
+import { ICharacter, IWeapon, IWeaponData } from "../../interface/genshin.type";
 // import { IWeaponData } from "../../interface/genshin.type";
 
 import { weapons, weaponMap } from "../../utils/weapon.data";
@@ -29,18 +29,15 @@ const WeaponModal = (props: IProps) => {
   };
 
   const onWeaponClick = (weaponName: string) => () => {
-    console.log("onWeaponClick", weaponName);
     onClose("onselect", weaponMap[weaponName]);
   };
 
   // 只显示角色相关武器
-  const renderWeaponList = () => {
-    console.log("character?.weaponType", character?.weaponType);
-    return weapons
+  const renderWeaponList = () =>
+    weapons
       .filter((item) => weaponMap[item])
       .filter((item) => weaponMap[item].type.toLowerCase() === character?.weaponType)
       .map((item) => {
-        // console.log(item, weaponMap[item]);
         const bgClassName = "character-bg-" + weaponMap[item]?.rarity || "4";
 
         return (
@@ -50,7 +47,6 @@ const WeaponModal = (props: IProps) => {
           </li>
         );
       });
-  };
 
   return (
     <Modal visible={visible} onClose={onModalClose}>

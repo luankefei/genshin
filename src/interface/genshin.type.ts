@@ -23,7 +23,7 @@ export interface ICharacter {
   level: number;
   talents: { [key: string]: number };
   constellation: number;
-  weapon: IWeapon;
+  weapon: IWeapon | null;
   weaponType: string;
   artifacts: {
     list: string[];
