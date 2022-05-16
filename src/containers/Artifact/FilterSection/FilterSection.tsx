@@ -96,9 +96,9 @@ const FilterSection = (props: IProps) => {
     setFilterOptionsMap(dict as any);
   };
 
-  const onLevelRangeChange = (value: number) => {
-    console.log("onLevelRangeChange", value);
-  };
+  // const onLevelRangeChange = (value: number) => {
+  //   onFilterChange;
+  // };
 
   const onFilterChange = (key: string) => (value: string | number) => {
     console.log("setFilter", key, value);
@@ -167,14 +167,15 @@ const FilterSection = (props: IProps) => {
         </Filter>
         <Filter>
           <FilterTitle>等级：</FilterTitle>
-          <FilterDetail>
+          <FilterDetail className="range">
             <RangeSlider
               min={0}
               max={20}
               value={filterMap.lvRange}
               orientation="horizontal"
-              onChange={onLevelRangeChange}
+              onChange={onFilterChange("lvRange")}
             />
+            <span>{filterMap.lvRange}</span>
           </FilterDetail>
           {/* <div
             range-slider

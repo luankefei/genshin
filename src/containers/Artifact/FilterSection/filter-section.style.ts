@@ -18,8 +18,23 @@ export const FilterTitle = styled.dt`
 export const FilterDetail = styled.dd`
   width: 300px;
 
+  &.range {
+    display: flex;
+    align-items: center;
+
+    span {
+      flex: 0.1;
+      text-align: right;
+    }
+  }
+
   .rangeslider-horizontal {
+    flex: 0.9;
     height: 6px;
+  }
+
+  .rangeslider-horizontal .rangeslider__fill {
+    background-color: #3694ff;
   }
 
   .rangeslider-horizontal .rangeslider__handle {
