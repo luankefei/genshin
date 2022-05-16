@@ -22,12 +22,12 @@ import {
 } from "./character-modal.style";
 import weaponMap from "../../utils/weapon.data";
 
-// export const DEFAULT_WEAPON_DETAIL: IWeapon = {
-//   id: "kaguras-verity",
-//   name: "神乐之真意",
-//   affix: 5,
-//   level: 90,
-// };
+export const DEFAULT_WEAPON_DETAIL: IWeapon = {
+  id: "kaguras-verity",
+  name: "神乐之真意",
+  affix: 5,
+  level: 90,
+};
 
 const DEFAULT_CHARACTER_DETAIL: ICharacter = {
   enName: "yae",
@@ -125,8 +125,10 @@ const CharacterModal = (props: IProps) => {
       (key) => weaponMap[key].type.toLowerCase() === obj.weaponType
     );
 
-    // obj.weapon = { ...DEFAULT_WEAPON_DETAIL, ...weaponMap[recommendWeaponName as string] };
-    obj.weapon = weapon;
+    console.log("recommendWeaponName", recommendWeaponName, weaponMap[recommendWeaponName]);
+
+    // TODO: 添加角色时的默认武器，应该设置为推荐武器
+    obj.weapon = { ...DEFAULT_WEAPON_DETAIL, ...weaponMap[recommendWeaponName as string] };
     obj.weapon.id = obj.weapon.id.replaceAll("_", "-");
 
     setModalCharacter(obj);
