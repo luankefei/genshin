@@ -195,5 +195,3 @@ const withConnect = connect(null, {
 });
 
 export default withConnect(FilterSection);
-// ose(withConnect, withRouter)(Artifact);
-// export default FilterSection;

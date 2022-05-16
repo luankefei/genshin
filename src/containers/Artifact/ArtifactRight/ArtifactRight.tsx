@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { actions } from "../artifact.reducer";
 
 import SectionTitle from "../SectionTitle";
 import FilterSection from "../FilterSection";
@@ -14,13 +16,8 @@ import {
   WeightSection,
   WeightButton,
   StartContainer,
-  // FilterSection,
-  // Filter,
-  // FilterTitle,
-  // FilterDetail,
 } from "./artifact-right.style";
 import { IArtifact } from "src/utils/mona.artifact";
-// import { ArtifactList } from "../artifact.style";
 
 const logProgress: string[] = [];
 
@@ -33,16 +30,6 @@ function validateFile(file: any): boolean {
     return false;
   }
 
-  // 没有实际作用，只上报日志
-  // const fileType = file.type;
-  // const extname = file.name.split(".").pop();
-  // // 只验证文件类型，不多扩展名做校验
-  // const regex = /^(image\/jpeg)|(image\/png)|(image\/gif)|(image\/webp)$/gi;
-  // const isFileTypeValid = regex.test(fileType);
-  // if (!isFileTypeValid && fileType) {
-  //   log.send("invalid_file_type", { fileType, extname, desc: "用户图片格式非法" });
-  // }
-
   return true;
 }
 
@@ -53,10 +40,11 @@ type IProps = {
   artifactList: any[];
   onFilterSubmit: (filterMap: any) => void;
   onFileUploaded: (artifactList: IArtifact[]) => void;
+  updateWeightMap: (payload: { key: string; value: string }) => void;
 };
 
 const ArtifactRight = (props: IProps) => {
-  const { weightMap, weightMapInUse, filterMap, artifactList, onFileUploaded } = props;
+  const { weightMap, weightMapInUse, filterMap, artifactList, onFileUploaded, updateWeightMap } = props;
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
@@ -91,59 +79,31 @@ const ArtifactRight = (props: IProps) => {
       return;
     }
 
-    // setVisibleImageModal(true);
-
     const artifacts = await monaFileToArtifacts(file).catch((err) => {
       log.send("file_change_error", {
         err: JSON.stringify(err),
       });
     });
 
-    // console.log("imageUrl", artifacts);
-
-    // const fileName = `checkin_custom_${today}_${userInfo.user_id}_${file.name}`;
     if (artifacts && artifacts.length) {
-      // console.log("setArtifactList");
       onFileUploaded(artifacts);
-      // setArtifactList(artifacts);
-
-      // imageUrl = await getOssToken()
-      //   .then(() => {
-      //     logProgress.push("upload");
-      //     return uploadToOss(fileName, file);
-      //   })
-      //   .then(() => drawCustomImage(file))
-      //   .catch((err: any) => {
-      //     log.send("file_change_error", {
-      //       err: JSON.stringify(err),
-      //     });
-      //   });
       log.send("draw_stage_1_success", { desc: "第一方案成功人数" });
     }
   };
 
   const onWeightButtonClick = (key: string) => () => {
     console.log("onWeightButtonClick", key, weightMap[key]);
-    // if (props.modelValue == 0) {
-    //   emit("update:modelValue", 0.5);
-    // } else if (props.modelValue == 0.5) {
-    //   emit("update:modelValue", 1);
-    // } else {
-    //   emit("update:modelValue", 0);
-    // }
+    let value = weightMap[key];
+    if (value === 0) value = 0.5;
+    else if (value === 0.5) value = 1;
+    else value = 0;
+
+    console.log("updateWeightMap", key, value);
+    updateWeightMap({ key, value });
   };
 
-  const renderWeightButtons = () => {
-    // console.log("renderWeightButtons", weightMap);
-    //   return {
-    //     "value-button": true,
-    //     one: props.modelValue == 1,
-    //     zero: props.modelValue == 0,
-    //   };
-    // });
-    // });
-
-    return Object.keys(weightMap).map((k) => {
+  const renderWeightButtons = () =>
+    Object.keys(weightMap).map((k) => {
       const content = localeChs.affix[k];
       let affix = weightMap[k] === 1 ? "one" : "";
       if (weightMap[k] === 0) affix = "zero";
@@ -155,39 +115,10 @@ const ArtifactRight = (props: IProps) => {
         </WeightButton>
       );
     });
-  };
 
   const submitFilter = () => {
     console.log("点击开始计算 submitFilter");
   };
-
-  // const countArtifactsByAttr = (artifacts: IArtifact[], key: keyof IArtifact) => {
-  //   // key: string;
-  //   // value: string | number;
-  //   // tip: string;
-
-  //   let s: IOption[] = [];
-  //   const op: IOption = { tip: "0", key: "", value: "" };
-  //   for (let a of artifacts) {
-  //     let akey = a[key].toString();
-  //     op.key = akey;
-  //     if (akey in s) {
-  //       op[akey].tip += 1;
-  //     }
-  //   }
-  //   s.push(op);
-  //   return s;
-  // };
-
-  //   filterSets(state) {
-  //     let ret = [{ key: "", value: "全部", tip: state.artifacts.length.toString() }],
-  //         s = countArtifactAttr(state.artifacts, 'set')
-  //     for (let key in chs.set) {
-  //         if (key in s)
-  //             ret.push({ key, value: chs.set[key].name, tip: s[key].toString() });
-  //     }
-  //     return ret;
-  // },
 
   return (
     <Container>
@@ -220,4 +151,36 @@ const ArtifactRight = (props: IProps) => {
   );
 };
 
-export default ArtifactRight;
+const withConnect = connect(null, {
+  updateWeightMap: actions.updateWeightMap,
+});
+
+export default withConnect(ArtifactRight);
+
+// const countArtifactsByAttr = (artifacts: IArtifact[], key: keyof IArtifact) => {
+//   // key: string;
+//   // value: string | number;
+//   // tip: string;
+
+//   let s: IOption[] = [];
+//   const op: IOption = { tip: "0", key: "", value: "" };
+//   for (let a of artifacts) {
+//     let akey = a[key].toString();
+//     op.key = akey;
+//     if (akey in s) {
+//       op[akey].tip += 1;
+//     }
+//   }
+//   s.push(op);
+//   return s;
+// };
+
+//   filterSets(state) {
+//     let ret = [{ key: "", value: "全部", tip: state.artifacts.length.toString() }],
+//         s = countArtifactAttr(state.artifacts, 'set')
+//     for (let key in chs.set) {
+//         if (key in s)
+//             ret.push({ key, value: chs.set[key].name, tip: s[key].toString() });
+//     }
+//     return ret;
+// },
