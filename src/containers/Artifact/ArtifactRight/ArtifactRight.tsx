@@ -41,10 +41,12 @@ type IProps = {
   onFilterSubmit: (filterMap: any) => void;
   onFileUploaded: (artifactList: IArtifact[]) => void;
   updateWeightMap: (payload: { key: string; value: string }) => void;
+  updateArtifacts: () => void;
 };
 
 const ArtifactRight = (props: IProps) => {
-  const { weightMap, weightMapInUse, filterMap, artifactList, onFileUploaded, updateWeightMap } = props;
+  const { weightMap, weightMapInUse, filterMap, artifactList, onFileUploaded, updateWeightMap, updateArtifacts } =
+    props;
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
@@ -118,6 +120,7 @@ const ArtifactRight = (props: IProps) => {
 
   const submitFilter = () => {
     console.log("点击开始计算 submitFilter");
+    updateArtifacts();
   };
 
   return (
@@ -153,6 +156,7 @@ const ArtifactRight = (props: IProps) => {
 
 const withConnect = connect(null, {
   updateWeightMap: actions.updateWeightMap,
+  updateArtifacts: actions.updateArtifacts,
 });
 
 export default withConnect(ArtifactRight);

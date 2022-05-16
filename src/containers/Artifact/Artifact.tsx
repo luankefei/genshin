@@ -57,62 +57,12 @@ const Artifact = (props: IProps) => {
   const [sortBy, setSortBy] = useState("avg");
   const [artifactList, setArtifactList] = useState(facts as any);
 
-  console.log("DATA FROM REDUX", filterMap);
-
-  // const updFilteredArtifacts = ({ state }) => {
-  //   state.loading = true;
-
-  //   setTimeout(() => {
-  //     let ret = state.artifacts;
-  //     // filter
-  //     // basic filter
-  //     if (filterMap.set) ret = ret.filter((a) => a.set == filterMap.set);
-  //     if (filterMap.slot) ret = ret.filter((a) => a.slot == filterMap.slot);
-  //     if (filterMap.main) ret = ret.filter((a) => a.mainKey == filterMap.main);
-  //     if (filterMap.location != "all") ret = ret.filter((a) => a.location == filterMap.location);
-  //     if (filterMap.lock) ret = ret.filter((a) => a.lock.toString() == filterMap.lock);
-  //     ret = ret.filter((a) => filterMap.lvRange[0] <= a.level && a.level <= filterMap.lvRange[1]);
-
-  //     // weight
-  //     // TODO
-  //     // state.weightMapInUse = state.useWeightJson ? JSON.parse(state.weightJson) : { ...state.weight };
-  //     // update affix numbers
-  //     for (let a of ret) {
-  //       a.clear();
-  //       if (state.sortBy == "score") a.updateScore();
-  //       a.updateAffnum(state.weightInUse);
-  //     }
-  //     // sort
-  //     if (state.sortBy == "score") {
-  //       // sort in descending order of score
-  //       ret.sort((a, b) => b.data.score - a.data.score);
-  //     } else if (state.sortBy == "defeat") {
-  //       // TODO
-  //       // Artifact.sortByDefeat(ret);
-  //     } else if (state.sortBy) {
-  //       // sort in descending order of affix number
-  //       ret.sort((a, b) => (b.data.affnum as any)[state.sortBy] - (a.data.affnum as any)[state.sortBy]);
-  //     } else {
-  //       // sort in ascending order of index
-  //       ret.sort((a, b) => a.data.index - b.data.index);
-  //     }
-  //     // update
-  //     // TODO
-  //     // filterMapedArtifacts = ret;
-  //     // state.nReload++;
-  //     // state.loading = false;
-  //   }, 250);
-  // };
-
   const onFileUploaded = (list: IArtifact[]) => {
     setArtifactList(list);
   };
 
+  // hook filter submit
   const onFilterSubmit = () => {
-    console.log("hookFilterSubmit");
-
-    // state.loading = true;
-
     let ret = artifactList;
     // filter
     // basic filter
