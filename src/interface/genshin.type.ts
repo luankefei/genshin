@@ -35,3 +35,48 @@ export interface ICharacter {
   score: number;
   update?: string;
 }
+
+interface IAffix {
+  key: string;
+  value: number;
+}
+
+export class Affix implements IAffix {
+  key = "";
+  value = 0;
+  constructor(obj?: any) {
+    if (obj) {
+      this.key = obj.key;
+      this.value = obj.value;
+    }
+  }
+  valueString() {
+    if (["hp", "atk", "def", "em"].includes(this.key)) {
+      return this.value.toFixed(0);
+    } else {
+      return this.value.toFixed(1) + "%";
+    }
+  }
+}
+
+export interface IArtifact {
+  set: string;
+  slot: string;
+  rarity: number;
+  level: number;
+  lock: boolean;
+  location: string;
+  mainKey: string;
+  // mainKeys: string;
+  minors: Affix[];
+  data: {
+    index: number;
+    affnum: {
+      cur: number;
+      avg: number;
+      min: number;
+      max: number;
+    };
+    lock: boolean;
+  };
+}

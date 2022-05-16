@@ -10,7 +10,7 @@ import Select from "../Select";
 import type { IOption } from "../Select";
 import artifactDict from "src/utils/artifact.dict";
 import localeChs from "src/utils/locale.chs";
-import { IArtifact } from "src/utils/mona.artifact";
+import { IArtifact } from "src/interface/genshin.type";
 
 import { Container, Filter, FilterTitle, FilterDetail } from "./filter-section.style";
 import { SectionContent } from "../ArtifactRight/artifact-right.style";

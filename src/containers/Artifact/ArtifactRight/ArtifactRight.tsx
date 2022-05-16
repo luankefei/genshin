@@ -94,13 +94,11 @@ const ArtifactRight = (props: IProps) => {
   };
 
   const onWeightButtonClick = (key: string) => () => {
-    console.log("onWeightButtonClick", key, weightMap[key]);
     let value = weightMap[key];
     if (value === 0) value = 0.5;
     else if (value === 0.5) value = 1;
     else value = 0;
 
-    console.log("updateWeightMap", key, value);
     updateWeightMap({ key, value });
   };
 

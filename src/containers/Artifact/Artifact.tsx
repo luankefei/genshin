@@ -9,7 +9,7 @@ import { makeSelectWeightMap, makeSelectFilterMap, makeSelectWeightMapInUse } fr
 import ArtifactCard from "./ArtifactCard";
 import ArtifactRight from "./ArtifactRight";
 
-import { IArtifact } from "../../utils/mona.artifact";
+import { IArtifact } from "../../interface/genshin.type";
 import { Page, Header, Container, ArtifactList, SideBar } from "./artifact.style";
 
 type IProps = {
@@ -79,7 +79,7 @@ const Artifact = (props: IProps) => {
     // update affix numbers
     for (let a of ret) {
       a.clear();
-      // if (state.sortBy == "score") a.updateScore();
+      if (sortBy == "score") a.updateScore();
       a.updateAffnum(weightMapInUse);
     }
     // sort
@@ -92,8 +92,6 @@ const Artifact = (props: IProps) => {
     }
     // update
     setArtifactList(ret);
-    // state.nReload++;
-    // state.loading = false;
   };
 
   const renderArtifact = () => artifactList.map((a, index) => <ArtifactCard key={index} {...a} />);
@@ -112,11 +110,7 @@ const Artifact = (props: IProps) => {
           />
         </SideBar>
         <ArtifactList>
-          <ul>
-            {renderArtifact()}
-            {/* <ArtifactCard />
-            <ArtifactCard /> */}
-          </ul>
+          <ul>{renderArtifact()}</ul>
         </ArtifactList>
       </Container>
     </Page>

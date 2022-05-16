@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { IArtifact, Affix } from "../../../utils/mona.artifact";
+import { IArtifact, Affix } from "../../../interface/genshin.type";
 import locale from "../../../utils/locale.chs";
 import data from "../../../utils/mona.data";
 
@@ -70,7 +70,7 @@ const ArtifactCard = (props: IArtifact) => {
     ));
   };
 
-  console.log("data", props.data);
+  console.warn("data", props);
 
   // computed tofixed
   const affnum = {
