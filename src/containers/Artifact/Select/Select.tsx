@@ -10,7 +10,7 @@ export type IOption = {
 
 type IProps = {
   value: string | number;
-  localeKey: string;
+  localeKey?: string;
   options: IOption[];
   onSelect: (value: string | number) => void;
 };
@@ -46,6 +46,7 @@ const Select = (props: IProps) => {
 
   const renderContent = () => {
     if (value && localeKey) {
+      if (localeKey === "set") return localeChs[localeKey][value].name;
       return localeChs[localeKey][value];
     }
 

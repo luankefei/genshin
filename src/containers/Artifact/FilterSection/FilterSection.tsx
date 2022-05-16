@@ -128,13 +128,9 @@ const FilterSection = (props: IProps) => {
           <FilterDetail>
             <Select
               value={filterMap.set}
-              // options={[{ key: "北京", value: "beijing", tip: "10" }]}
               options={filterOptionsMap.set}
-              onSelect={() => undefined}
-              data-className="filter-ctrl"
-              data-items="store.getters.filterSets"
-              data-model-value="store.filterMap.set"
-              data-update-model-value="setFilter('set', $event)"
+              localeKey="set"
+              onSelect={onFilterChange("set")}
             />
           </FilterDetail>
         </Filter>
@@ -144,10 +140,8 @@ const FilterSection = (props: IProps) => {
             <Select
               value={filterMap.slot}
               options={filterOptionsMap.slot}
-              onSelect={() => undefined}
-              data-className="filter-ctrl"
-              data-items="store.getters.filterSlots"
-              data-update-model-value="setFilter('slot', $event)"
+              localeKey="slot"
+              onSelect={onFilterChange("slot")}
             />
           </FilterDetail>
         </Filter>
