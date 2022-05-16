@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import localeChs from "src/utils/locale.chs";
 import { DropSelect, Option } from "./select.style";
 
 export type IOption = {
@@ -9,12 +10,13 @@ export type IOption = {
 
 type IProps = {
   value: string | number;
+  localeKey: string;
   options: IOption[];
   onSelect: (value: string | number) => void;
 };
 
 const Select = (props: IProps) => {
-  const { value, options } = props;
+  const { value, localeKey, options } = props;
   const [visible, setVisible] = useState(false);
 
   // console.log("renderSelect", options, options.length);
@@ -42,6 +44,18 @@ const Select = (props: IProps) => {
     ));
   };
 
+  const renderContent = () => {
+    if (value && localeKey) {
+      return localeChs[localeKey][value];
+    }
+
+    if (value) {
+      return value;
+    }
+
+    return "全部";
+  };
+
   return (
     <DropSelect
       tabIndex={-1}
@@ -49,7 +63,7 @@ const Select = (props: IProps) => {
       onMouseEnter={toggleOptions(true)}
       onMouseLeave={toggleOptions(false)}
     >
-      <span>{value || "全部"}</span>
+      <span>{renderContent()}</span>
       <i />
       <ul style={{ display: visible ? "block" : "none" }}>{renderOptions()}</ul>
     </DropSelect>

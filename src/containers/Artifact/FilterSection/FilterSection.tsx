@@ -157,6 +157,7 @@ const FilterSection = (props: IProps) => {
             <Select
               value={filterMap.mainKey}
               options={filterOptionsMap.mainKey}
+              localeKey="affix"
               onSelect={onFilterChange("mainKey")}
               data-className="filter-ctrl"
               data-items="store.getters.filterMains"
