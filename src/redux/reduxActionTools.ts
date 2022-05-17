@@ -15,7 +15,8 @@ const identity = (id) => id;
 function createAction(type, payloadCreator, metaCreator) {
   const finalActionCreator = typeof payloadCreator === "function" ? payloadCreator : identity;
   return (...args) => {
-    const action = {
+    // TODO: 缺少描述
+    const action: any = {
       type,
     };
 

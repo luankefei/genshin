@@ -7,7 +7,7 @@ import AuthProvider from "src/context/auth.context";
 import Layout from "src/components/Layout";
 
 type TProps = {
-  children: ReactNode[];
+  children: ReactNode | ReactNode[];
 };
 
 const App = (props: TProps) => {
