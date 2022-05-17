@@ -7,6 +7,7 @@ const { parse } = require("url");
 const proxy = require("express-http-proxy");
 const cookieParser = require("cookie-parser");
 const mime = require("mime-types");
+const path = require("path");
 
 // monitor
 // const easyMonitor = require('easy-monitor')
@@ -64,7 +65,7 @@ app
 
     // If you need a backend, e.g. an API, add your custom backend-specific middleware here
     // app.use('/api', myApi);
-    // server.use('/static', express.static('/static'))
+    // server.use("/static", express.static("/static"));
 
     // In production we need to pass these values in instead of relying on webpack
     // setup(app, {
@@ -81,21 +82,22 @@ app
       const parsedUrl = parse(req.url, true);
       const { pathname, query = {} } = parsedUrl;
 
-      let fileName = pathname.replace("/sign-v3", "");
+      let fileName = pathname.replace("/genshin", "");
 
-      if (!isProxy && !isDev) {
-        if (fileName.indexOf("sw.js") !== -1) {
-          const filePath = join(__dirname, "..", ".next", "/sw.js");
-          logger.info("find " + pathname);
-          logger.info("find filePath " + filePath);
-          return app.serveStatic(req, res, filePath);
-        }
-        //  else {
-        //   await authorizeMW.wechat(req, res);
-        // }
-      }
+      // return handle(ctx.req, ctx.res);
 
-      // logger.info('server route default', { pathname, query })
+      // if (!isProxy && !isDev) {
+      //   if (fileName.indexOf("sw.js") !== -1) {
+      //     const filePath = join(__dirname, "..", ".next", "/sw.js");
+      //     logger.info("find " + pathname);
+      //     logger.info("find filePath " + filePath);
+      //     return app.serveStatic(req, res, filePath);
+      //   }
+      //   //  else {
+      //   //   await authorizeMW.wechat(req, res);
+      //   // }
+      // }
+      logger.info("server route default", { pathname, query });
       return app.render(req, res, fileName, query);
     });
 
