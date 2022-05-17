@@ -14,10 +14,10 @@ const mime = require("mime-types");
 // const heapdump = require('heapdump')
 
 const logger = require("./logger");
-const wechat = require("./routes/wechat.route");
+// const wechat = require("./routes/wechat.route");
 const argv = require("./argv");
 const port = require("./port");
-const authorizeMW = require("./middlewares/authorize.mw");
+// const authorizeMW = require("./middlewares/authorize.mw");
 
 const isDev = process.env.MODE === "dev" && process.env.NODE_ENV === "development";
 const isProxy = process.env.MODE === "proxy";
@@ -56,36 +56,6 @@ app
 
     logger.info("env: ", { mode: process.env.MODE, env: process.env.NODE_ENV });
 
-    // dev:prod
-    if (isDev || isProxy) {
-      const proxyUri = !isDev || isProxy ? "tocpre.laiye.com" : "test.laiye.com";
-      const mockUri = "http://rap2.laiye.com:38080"; // sign-v3 mock仓库地址
-      // const proxyUri = 'test.a.laiye.com'
-      // const proxyUri = '172.17.201.106:10046'  东勇的机器
-
-      logger.info("proxy to: ", { proxyUri });
-
-      server.use(
-        /^\/image/,
-        proxy("192.168.1.34:3001", {
-          proxyReqPathResolver: (req) => require("url").parse(req.originalUrl).path,
-        })
-      );
-      server.use(
-        /^\/(api|group)/,
-        proxy(proxyUri, {
-          https: true,
-          proxyReqPathResolver: (req) => require("url").parse(req.originalUrl).path,
-        })
-      );
-      server.use(
-        /^\/mock/,
-        proxy(mockUri, {
-          proxyReqPathResolver: (req) => "/app/mock/18" + require("url").parse(req.originalUrl).path,
-        })
-      );
-    }
-
     // 微信回调获取 token
     // server.get("/sign-v3/wx/token", (req, res) => {
     //   logger.info("server wxtoken", { query: req.query });
@@ -119,9 +89,10 @@ app
           logger.info("find " + pathname);
           logger.info("find filePath " + filePath);
           return app.serveStatic(req, res, filePath);
-        } else {
-          await authorizeMW.wechat(req, res);
         }
+        //  else {
+        //   await authorizeMW.wechat(req, res);
+        // }
       }
 
       // logger.info('server route default', { pathname, query })
