@@ -1,49 +1,7 @@
 {
   "apps": [
     {
-      "name": "sign-v3.pre.8846",
-      "script": "./server/index.js",
-      "max_memory_restart": "500M",
-      "node_args": "--harmony",
-      "log_date_format": "YY-MM-DD HH:mm:ss.S",
-      "out_file": "logs/out.log",
-      "error_file": "logs/error.log",
-      "log_file": "logs/combined.outerr.log",
-      "watch": false,
-      "ignore_watch": ["[\\/\\\\]\\./", "\\.git/**", "node_modules", "logs", "static", "*\\.log", "*\\.out"],
-      "restart_delay": 1000,
-      "instances": 4,
-      "exec_mode": "cluster",
-      "env": {
-        "NODE_ENV": "production",
-        "MODE": "pre",
-        "CDN": true,
-        "PORT": 8846
-      }
-    },
-    {
-      "name": "sign-v3.pre.8847",
-      "script": "./server/index.js",
-      "max_memory_restart": "500M",
-      "node_args": "--harmony",
-      "log_date_format": "YY-MM-DD HH:mm:ss.S",
-      "out_file": "logs/out.log",
-      "error_file": "logs/error.log",
-      "log_file": "logs/combined.outerr.log",
-      "watch": false,
-      "ignore_watch": ["[\\/\\\\]\\./", "\\.git/**", "node_modules", "logs", "static", "*\\.log", "*\\.out"],
-      "restart_delay": 1000,
-      "instances": 4,
-      "exec_mode": "cluster",
-      "env": {
-        "NODE_ENV": "production",
-        "MODE": "pre",
-        "CDN": true,
-        "PORT": 8847
-      }
-    },
-    {
-      "name": "sign-v3.pre.8848",
+      "name": "genshin.pre.8848",
       "script": "./server/index.js",
       "max_memory_restart": "500M",
       "node_args": "--harmony",
