@@ -11,6 +11,7 @@ const Header = styled.header`
   border-bottom: 1px solid #f5f5f5;
   box-shadow: 0 0 3px #aaa;
   z-index: 10;
+  box-sizing: border-box;
 
   .logo {
     float: left;

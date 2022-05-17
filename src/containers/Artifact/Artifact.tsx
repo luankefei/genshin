@@ -6,24 +6,43 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import { actions } from "./artifact.reducer";
-import { makeSelectArtifacts, makeSelectWeightMap, makeSelectFilterMap } from "./artifact.selector";
+import {
+  makeSelectArtifacts,
+  makeSelectWeightMap,
+  makeSelectFilterMap,
+  makeSelectArtifactsBackup,
+} from "./artifact.selector";
 
 import ArtifactCard from "./ArtifactCard";
 import ArtifactRight from "./ArtifactRight";
 
 import { IArtifact } from "../../interface/genshin.type";
-import { Page, Header, Container, ArtifactList, SideBar } from "./artifact.style";
+import {
+  Page,
+  Header,
+  Container,
+  ArtifactList,
+  SideBar,
+} from "./artifact.style";
 
 type IProps = {
   weightMap: any;
   filterMap: any;
   artifactList: any[];
+  artifactListBackup: any[];
   createArtifacts: (payload: { artifacts: IArtifact[] }) => void;
   updateArtifacts: () => void;
 };
 
 const Artifact = (props: IProps) => {
-  const { weightMap, filterMap, artifactList, createArtifacts, updateArtifacts } = props;
+  const {
+    weightMap,
+    filterMap,
+    artifactList,
+    artifactListBackup,
+    createArtifacts,
+    updateArtifacts,
+  } = props;
 
   // TODO: 排序暂未使用
   const [sortBy, setSortBy] = useState("avg");
@@ -44,7 +63,9 @@ const Artifact = (props: IProps) => {
   };
 
   const renderArtifact = () =>
-    artifactList.map((a, index) => <ArtifactCard key={index} weightMap={weightMap} {...a} />);
+    artifactList.map((a, index) => (
+      <ArtifactCard key={index} weightMap={weightMap} {...a} />
+    ));
 
   return (
     <Page>
@@ -55,6 +76,7 @@ const Artifact = (props: IProps) => {
             weightMap={weightMap}
             filterMap={filterMap}
             artifactList={artifactList}
+            artifactListBackup={artifactListBackup}
           />
         </SideBar>
         <ArtifactList>
@@ -69,6 +91,7 @@ const mapStateToProps = createStructuredSelector({
   weightMap: makeSelectWeightMap(),
   filterMap: makeSelectFilterMap(),
   artifactList: makeSelectArtifacts(),
+  artifactListBackup: makeSelectArtifactsBackup(),
 });
 
 const mapDispatchToProps = {

@@ -37,13 +37,24 @@ type IProps = {
   weightMap: any;
   filterMap: any;
   artifactList: any[];
+  artifactListBackup: any[];
   onFileUploaded: (artifactList: IArtifact[]) => void;
   updateWeightMap: (payload: { key: string; value: string }) => void;
   updateArtifacts: () => void;
 };
 
 const ArtifactRight = (props: IProps) => {
-  const { weightMap, filterMap, artifactList, onFileUploaded, updateWeightMap, updateArtifacts } = props;
+  const {
+    weightMap,
+    filterMap,
+    artifactList,
+    artifactListBackup,
+    onFileUploaded,
+    updateWeightMap,
+    updateArtifacts,
+  } = props;
+
+  console.log("发生了什么", artifactList.length, artifactListBackup.length);
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
@@ -107,7 +118,11 @@ const ArtifactRight = (props: IProps) => {
       if (weightMap[k] === 0) affix = "zero";
 
       return (
-        <WeightButton key={k} className={affix} onClick={onWeightButtonClick(k)}>
+        <WeightButton
+          key={k}
+          className={affix}
+          onClick={onWeightButtonClick(k)}
+        >
           <span className="blank">{content}</span>
           <span className="fill">{content}</span>
         </WeightButton>
@@ -129,17 +144,22 @@ const ArtifactRight = (props: IProps) => {
           <label htmlFor="select-file">
             <span className="button">导入</span>
           </label>
-          <UploadMessage>共导入{artifactList.length}个5星圣遗物</UploadMessage>
+          <UploadMessage>共{artifactList.length}个5星圣遗物</UploadMessage>
         </SectionContent>
 
-        <input id="select-file" type="file" onChange={fileChange} accept=".json" />
+        <input
+          id="select-file"
+          type="file"
+          onChange={fileChange}
+          accept=".json"
+        />
       </Uploader>
       <WeightSection>
         <SectionTitle title="词条权重" />
         <SectionContent>{renderWeightButtons()}</SectionContent>
       </WeightSection>
 
-      <FilterSection filterMap={filterMap} artifactList={artifactList} />
+      <FilterSection filterMap={filterMap} artifactList={artifactListBackup} />
 
       <StartContainer>
         <button className="button" onClick={submitFilter}>

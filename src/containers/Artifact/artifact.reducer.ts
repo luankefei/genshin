@@ -1,5 +1,9 @@
 import { AnyAction } from "redux";
-import { createReducer, createAsyncAction, createAction } from "../../redux/reduxActionTools";
+import {
+  createReducer,
+  createAsyncAction,
+  createAction,
+} from "../../redux/reduxActionTools";
 import { minorKeys, minorStat } from "../../utils/artifact.dict";
 
 const CREATE_ARTIFACTS = "artifact/CREATE_ARTIFACTS";
@@ -48,6 +52,7 @@ type IState = any;
 
 const initialState = {
   artifacts: [],
+  artifactsBackup: [],
 
   filteredArtifacts: [],
   filterMap: {
@@ -58,7 +63,18 @@ const initialState = {
     lock: "", // '', 'true', 'false'
     lvRange: 0,
   },
-  weightMap: { hp: 0, atk: 0, def: 0, hpp: 0, atkp: 0.5, defp: 0, em: 0.5, er: 0.5, cr: 1, cd: 1 },
+  weightMap: {
+    hp: 0,
+    atk: 0,
+    def: 0,
+    hpp: 0,
+    atkp: 0.5,
+    defp: 0,
+    em: 0.5,
+    er: 0.5,
+    cr: 1,
+    cd: 1,
+  },
   sortBy: "avg",
 };
 
@@ -91,6 +107,7 @@ function createArtifacts(state: IState, action: AnyAction) {
   return {
     ...state,
     artifacts,
+    artifactsBackup: artifacts,
   };
 }
 
@@ -227,13 +244,15 @@ function updateAffnum(w: { [key: string]: number }) {
     A.add(a4_key);
     let astar_key = argmax(w, A) as string;
     A.delete(a4_key);
-    this.data.affnum.max = this.data.affnum.cur + (w[a4_key] + 4 * w[astar_key]) / 0.85;
+    this.data.affnum.max =
+      this.data.affnum.cur + (w[a4_key] + 4 * w[astar_key]) / 0.85;
     // min
     a4_key = argmin(w, Ac) as string;
     A.add(a4_key);
     astar_key = argmin(w, A) as string;
     A.delete(a4_key);
-    this.data.affnum.min = this.data.affnum.cur + ((w[a4_key] + 4 * w[astar_key]) * 0.7) / 0.85;
+    this.data.affnum.min =
+      this.data.affnum.cur + ((w[a4_key] + 4 * w[astar_key]) * 0.7) / 0.85;
   } else {
     // this.minors.length == 4
     let n = Math.ceil((20 - this.level) / 4); // n.o. upgrades
@@ -244,15 +263,18 @@ function updateAffnum(w: { [key: string]: number }) {
     this.data.affnum.max = this.data.affnum.cur + (n * w[astar_key]) / 0.85;
     // min
     astar_key = argmin(w, A) as string;
-    this.data.affnum.min = this.data.affnum.cur + (n * w[astar_key] * 0.7) / 0.85;
+    this.data.affnum.min =
+      this.data.affnum.cur + (n * w[astar_key] * 0.7) / 0.85;
   }
 }
 
+// 5.17 这里使用backup（全部）数据，但最终数据流向artifacts
 const updateArtifacts = (state: IState) => {
-  const { filterMap, weightMap } = state;
-  // state.loading = true;
+  const { filterMap, weightMap, artifactsBackup } = state;
 
-  let ret = state.artifacts.slice();
+  console.log("artifactsBackup", artifactsBackup.length);
+  console.log("artifacts", state.artifacts.length);
+  let ret = artifactsBackup.slice();
 
   console.log("updateArtifacts", ret.length);
 
@@ -261,19 +283,18 @@ const updateArtifacts = (state: IState) => {
   if (filterMap.set) ret = ret.filter((a) => a.set == filterMap.set);
   if (filterMap.slot) ret = ret.filter((a) => a.slot == filterMap.slot);
   if (filterMap.main) ret = ret.filter((a) => a.mainKey == filterMap.main);
-  if (filterMap.location != "all") ret = ret.filter((a) => a.location == filterMap.location);
-  if (filterMap.lock) ret = ret.filter((a) => a.lock.toString() == filterMap.lock);
+  if (filterMap.location != "all")
+    ret = ret.filter((a) => a.location == filterMap.location);
+  if (filterMap.lock)
+    ret = ret.filter((a) => a.lock.toString() == filterMap.lock);
   ret = ret.filter((a) => filterMap.lvRange <= a.level);
 
   // weight
-  // const weightInUseObj = state.useWeightJson ? JSON.parse(state.weightJson) : { ...state.weight };
   const weightMapObj = JSON.parse(JSON.stringify(weightMap));
-  // console.log("weightInUse", weightMap, weightMapObj, ret, filterMap);
 
   // update affix numbers
   for (let a of ret) {
     clear.call(a);
-    // if (state.sortBy == "score") updateScore.call(a);
     updateAffnum.call(a, weightMapObj);
   }
 
@@ -281,7 +302,11 @@ const updateArtifacts = (state: IState) => {
   if (state.sortBy == "score") ret.sort((a, b) => b.data.score - a.data.score);
   // sort in descending order of affix number
   else if (state.sortBy)
-    ret.sort((a, b) => (b.data.affnum as any)[state.sortBy] - (a.data.affnum as any)[state.sortBy]);
+    ret.sort(
+      (a, b) =>
+        (b.data.affnum as any)[state.sortBy] -
+        (a.data.affnum as any)[state.sortBy]
+    );
   // sort in ascending order of index
   else ret.sort((a, b) => a.data.index - b.data.index);
 
