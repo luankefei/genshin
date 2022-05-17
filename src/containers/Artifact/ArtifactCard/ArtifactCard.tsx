@@ -82,8 +82,6 @@ const ArtifactCard = (props: IProps) => {
     ));
   };
 
-  console.warn("data", props);
-
   // computed tofixed
   const affnum = {
     cur: props.data.affnum.cur.toFixed(1),

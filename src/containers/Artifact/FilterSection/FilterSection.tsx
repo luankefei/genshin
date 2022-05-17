@@ -35,7 +35,7 @@ type IProps = {
 const FilterSection = (props: IProps) => {
   const { filterMap, artifactList, updateFilterMap } = props;
 
-  console.log("filterSection", filterMap);
+  // console.log("filterSection", filterMap);
 
   const [filterOptionsMap, setFilterOptionsMap] = useState({
     set: [],
@@ -60,9 +60,9 @@ const FilterSection = (props: IProps) => {
     names.forEach((n) => {
       // let n = name === "mainKey" ? "mainKeys" : name;
       const list = [];
-      console.log("------------------ forEach before", n, dict);
+      // console.log("------------------ forEach before", n, dict);
       Object.keys(dict[n]).forEach((k) => {
-        console.log("------------------ forEach", mapping[n][k], dict[n][k], n, k, dict, mapping);
+        // console.log("------------------ forEach", mapping[n][k], dict[n][k], n, k, dict, mapping);
         let key = n === "set" ? mapping[n][k].name : mapping[n][k];
 
         // mainKey词条需要翻译
@@ -78,7 +78,7 @@ const FilterSection = (props: IProps) => {
       dict[n] = list;
 
       // TODO: 文字没有转成中文，需要查找原项目的代码
-      console.log("restoreToOptionList list: ", list);
+      // console.log("restoreToOptionList list: ", list);
     });
   };
 
@@ -88,11 +88,11 @@ const FilterSection = (props: IProps) => {
     // "mainKey", "location", "lock"];
     names.forEach((key) => (dict[key] = countArtifactsByAttr(artifactList as any, key as keyof IArtifact)));
 
-    console.log("====== FilterOptionsMap dict", dict);
+    // console.log("====== FilterOptionsMap dict", dict);
     // restore
     restoreToOptionList(dict, names);
 
-    console.log("countArtifactsByAttr", dict);
+    // console.log("countArtifactsByAttr", dict);
     setFilterOptionsMap(dict as any);
   };
 
@@ -101,7 +101,7 @@ const FilterSection = (props: IProps) => {
   // };
 
   const onFilterChange = (key: string) => (value: string | number) => {
-    console.log("setFilter", key, value);
+    // console.log("setFilter", key, value);
     // 注意这里直接修改filterMap会导致组件不刷新
     const obj = JSON.parse(JSON.stringify(filterMap));
     obj[key] = value;

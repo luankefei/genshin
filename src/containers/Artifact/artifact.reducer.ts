@@ -2,16 +2,52 @@ import { AnyAction } from "redux";
 import { createReducer, createAsyncAction, createAction } from "../../redux/reduxActionTools";
 import { minorKeys, minorStat } from "../../utils/artifact.dict";
 
+const CREATE_ARTIFACTS = "artifact/CREATE_ARTIFACTS";
 const UPDATE_FILTER_MAP = "artifact/UPDATE_FILTER_MAP";
 const UPDATE_FILTER_MAP_SUCCESS = "artifact/UPDATE_FILTER_MAP_SUCCESS";
 const UPDATE_WEIGHT_MAP = "artifact/UPDATE_WEIGHT_MAP";
 const UPDATE_ARTIFACTS = "artifact/UPDATE_ARTIFACTS";
 // const UPDATE_WEIGHT_MAP_SUCCESS = "artifact/UPDATE_WEIGHT_MAP_SUCCESS";
 
+const facts = [
+  {
+    set: "EchoesOfAnOffering",
+    slot: "flower",
+    rarity: 5,
+    level: 20,
+    lock: false,
+    location: "",
+    mainKey: "hp",
+    minors: [
+      { key: "cr", value: 10.5 },
+      { key: "er", value: 11.7 },
+      { key: "hpp", value: 4.1 },
+      { key: "atkp", value: 8.7 },
+    ],
+    data: { index: 0, affnum: { cur: 0, avg: 0, min: 0, max: 0 }, lock: false },
+  },
+  {
+    set: "OceanHuedClam",
+    slot: "flower",
+    rarity: 5,
+    level: 20,
+    lock: false,
+    location: "",
+    mainKey: "hp",
+    minors: [
+      { key: "er", value: 17.5 },
+      { key: "atk", value: 16 },
+      { key: "atkp", value: 15.2 },
+      { key: "hpp", value: 5.3 },
+    ],
+    data: { index: 1, affnum: { cur: 0, avg: 0, min: 0, max: 0 }, lock: false },
+  },
+];
+
 type IState = any;
 
 const initialState = {
-  artifacts: [],
+  artifacts: facts,
 
   filteredArtifacts: [],
   filterMap: {
@@ -45,6 +81,15 @@ function updateFilterMap(state: IState, action: AnyAction) {
   return {
     ...state,
     filterMap,
+  };
+}
+
+function createArtifacts(state: IState, action: AnyAction) {
+  const { artifacts } = action.payload;
+
+  return {
+    ...state,
+    artifacts,
   };
 }
 
@@ -200,6 +245,8 @@ function updateAffnum(w: { [key: string]: number }) {
     astar_key = argmin(w, A) as string;
     this.data.affnum.min = this.data.affnum.cur + (n * w[astar_key] * 0.7) / 0.85;
   }
+
+  console.log("计算 affnums", this.data.affnum);
 }
 
 const updateArtifacts = (state: IState) => {
@@ -207,6 +254,7 @@ const updateArtifacts = (state: IState) => {
   // state.loading = true;
 
   let ret = state.artifacts.slice();
+
   // filter
   // basic filter
   if (filterMap.set) ret = ret.filter((a) => a.set == filterMap.set);
@@ -214,12 +262,12 @@ const updateArtifacts = (state: IState) => {
   if (filterMap.main) ret = ret.filter((a) => a.mainKey == filterMap.main);
   if (filterMap.location != "all") ret = ret.filter((a) => a.location == filterMap.location);
   if (filterMap.lock) ret = ret.filter((a) => a.lock.toString() == filterMap.lock);
-  ret = ret.filter((a) => filterMap.lvRange[0] <= a.level && a.level <= filterMap.lvRange[1]);
+  ret = ret.filter((a) => filterMap.lvRange <= a.level);
 
   // weight
   // const weightInUseObj = state.useWeightJson ? JSON.parse(state.weightJson) : { ...state.weight };
   const weightMapObj = JSON.parse(JSON.stringify(weightMap));
-  console.log("weightInUse", weightMap, weightMapObj);
+  console.log("weightInUse", weightMap, weightMapObj, ret, filterMap);
 
   // update affix numbers
   for (let a of ret) {
@@ -245,11 +293,13 @@ const updateArtifacts = (state: IState) => {
 };
 
 const actions = {
+  createArtifacts: createAction(CREATE_ARTIFACTS, undefined, undefined),
   updateFilterMap: createAction(UPDATE_FILTER_MAP, undefined, undefined),
   updateWeightMap: createAction(UPDATE_WEIGHT_MAP, undefined, undefined),
   updateArtifacts: createAction(UPDATE_ARTIFACTS, undefined, undefined),
 };
 const reducers = createReducer()
+  .when(CREATE_ARTIFACTS, createArtifacts)
   .when(UPDATE_FILTER_MAP, updateFilterMap)
   .when(UPDATE_WEIGHT_MAP, updateWeightMap)
   .when(UPDATE_ARTIFACTS, updateArtifacts)
