@@ -12,14 +12,18 @@ import artifactDict from "src/utils/artifact.dict";
 import localeChs from "src/utils/locale.chs";
 import { IArtifact } from "src/interface/genshin.type";
 
-import { Container, Filter, FilterTitle, FilterDetail } from "./filter-section.style";
+import {
+  Container,
+  Filter,
+  FilterTitle,
+  FilterDetail,
+} from "./filter-section.style";
 import { SectionContent } from "../ArtifactRight/artifact-right.style";
 import { actions } from "../artifact.reducer";
 
 function countArtifactsByAttr(artifacts: IArtifact[], key: keyof IArtifact) {
   let s: { [key: string]: number } = {};
   for (let a of artifacts) {
-    // console.log("a[key].", a, key, a[key]);
     let akey = a[key].toString();
     s[akey] = akey in s ? s[akey] + 1 : 1;
   }
@@ -35,8 +39,6 @@ type IProps = {
 const FilterSection = (props: IProps) => {
   const { filterMap, artifactList, updateFilterMap } = props;
 
-  // console.log("filterSection", filterMap);
-
   const [filterOptionsMap, setFilterOptionsMap] = useState({
     set: [],
     slot: [],
@@ -46,23 +48,18 @@ const FilterSection = (props: IProps) => {
   });
 
   useEffect(() => {
-    // console.log("artifactList.length", JSON.stringify(artifactList));
     generateFilters();
   }, [artifactList]);
-  // }, []);
 
   const restoreToOptionList = (dict: any, names: string[]) => {
     const mapping = {
       ...localeChs,
       ...artifactDict,
     };
-    // console.log("localeChs mapping", mapping);
+
     names.forEach((n) => {
-      // let n = name === "mainKey" ? "mainKeys" : name;
       const list = [];
-      // console.log("------------------ forEach before", n, dict);
       Object.keys(dict[n]).forEach((k) => {
-        // console.log("------------------ forEach", mapping[n][k], dict[n][k], n, k, dict, mapping);
         let key = n === "set" ? mapping[n][k].name : mapping[n][k];
 
         // mainKey词条需要翻译
@@ -75,10 +72,10 @@ const FilterSection = (props: IProps) => {
         });
       });
 
-      dict[n] = list;
-
-      // TODO: 文字没有转成中文，需要查找原项目的代码
-      // console.log("restoreToOptionList list: ", list);
+      // 5.17 对筛选项追加 -> 全部
+      dict[n] = [{ key: "全部", tip: artifactList.length, value: "*" }].concat(
+        list
+      );
     });
   };
 
@@ -86,25 +83,24 @@ const FilterSection = (props: IProps) => {
     const dict = {};
     const names = ["set", "slot", "mainKey"];
     // "mainKey", "location", "lock"];
-    names.forEach((key) => (dict[key] = countArtifactsByAttr(artifactList as any, key as keyof IArtifact)));
+    names.forEach(
+      (key) =>
+        (dict[key] = countArtifactsByAttr(
+          artifactList as any,
+          key as keyof IArtifact
+        ))
+    );
 
-    // console.log("====== FilterOptionsMap dict", dict);
     // restore
     restoreToOptionList(dict, names);
 
-    // console.log("countArtifactsByAttr", dict);
     setFilterOptionsMap(dict as any);
   };
 
-  // const onLevelRangeChange = (value: number) => {
-  //   onFilterChange;
-  // };
-
   const onFilterChange = (key: string) => (value: string | number) => {
-    // console.log("setFilter", key, value);
     // 注意这里直接修改filterMap会导致组件不刷新
     const obj = JSON.parse(JSON.stringify(filterMap));
-    obj[key] = value;
+    obj[key] = value === "*" ? "" : value;
 
     // 同步filterMap的修改到store
     updateFilterMap({

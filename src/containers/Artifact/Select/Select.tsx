@@ -19,19 +19,12 @@ const Select = (props: IProps) => {
   const { value, localeKey, options } = props;
   const [visible, setVisible] = useState(false);
 
-  // console.log("renderSelect", options, options.length);
-
   const toggleOptions = (state: boolean) => () => {
     if (visible !== state) setVisible(state);
   };
 
-  // const onSelectClick = () => {
-  //   setVisible(!visible);
-  // };
-
   const onOptionSelect = (op: IOption) => () => {
     props.onSelect(op.value);
-    // console.log("onOptionSelect", op);
   };
 
   const renderOptions = () => {
@@ -45,6 +38,8 @@ const Select = (props: IProps) => {
   };
 
   const renderContent = () => {
+    if (value === "*") return "全部";
+
     if (value && localeKey) {
       if (localeKey === "set") return localeChs[localeKey][value].name;
       return localeChs[localeKey][value];

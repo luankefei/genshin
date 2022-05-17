@@ -128,7 +128,6 @@ const ArtifactRight = (props: IProps) => {
     });
 
   const submitFilter = () => {
-    console.log("点击开始计算 submitFilter");
     updateArtifacts();
   };
 
