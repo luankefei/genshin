@@ -4,7 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { makeSelectWeightMap, makeSelectFilterMap, makeSelectWeightMapInUse } from "./artifact.selector";
+import { makeSelectWeightMap, makeSelectFilterMap } from "./artifact.selector";
 
 import ArtifactCard from "./ArtifactCard";
 import ArtifactRight from "./ArtifactRight";
@@ -14,7 +14,6 @@ import { Page, Header, Container, ArtifactList, SideBar } from "./artifact.style
 
 type IProps = {
   weightMap: any;
-  weightMapInUse: any;
   filterMap: any;
 };
 
@@ -53,48 +52,59 @@ const facts = [
   },
 ];
 const Artifact = (props: IProps) => {
-  const { weightMap, weightMapInUse, filterMap } = props;
+  const { weightMap, filterMap } = props;
   const [sortBy, setSortBy] = useState("avg");
   const [artifactList, setArtifactList] = useState(facts as any);
+
+  //   const stat = computed(() => {
+  //     let nAll = store.state.filteredArtifacts.length
+  //     let nFull = 0, nLock = 0
+  //     for (let a of store.state.filteredArtifacts) {
+  //         if (a.level == 20) nFull++
+  //         if (a.lock) nLock++
+  //     }
+  //     return `共${nAll}个圣遗物，满级${nFull}个，加锁${nLock}个，解锁${nAll - nLock}个`
+  // })
 
   const onFileUploaded = (list: IArtifact[]) => {
     setArtifactList(list);
   };
 
   // hook filter submit
-  const onFilterSubmit = () => {
-    let ret = artifactList;
-    // filter
-    // basic filter
-    if (filterMap.set) ret = ret.filter((a) => a.set == filterMap.set);
-    if (filterMap.slot) ret = ret.filter((a) => a.slot == filterMap.slot);
-    if (filterMap.main) ret = ret.filter((a) => a.mainKey == filterMap.main);
-    if (filterMap.location != "all") ret = ret.filter((a) => a.location == filterMap.location);
-    if (filterMap.lock) ret = ret.filter((a) => a.lock.toString() == filterMap.lock);
-    ret = ret.filter((a) => a.level <= filterMap.lvRange);
+  // const onFilterSubmit = () => {
+  //   let ret = artifactList;
+  //   // filter
+  //   // basic filter
+  //   if (filterMap.set) ret = ret.filter((a) => a.set == filterMap.set);
+  //   if (filterMap.slot) ret = ret.filter((a) => a.slot == filterMap.slot);
+  //   if (filterMap.main) ret = ret.filter((a) => a.mainKey == filterMap.main);
+  //   if (filterMap.location != "all") ret = ret.filter((a) => a.location == filterMap.location);
+  //   if (filterMap.lock) ret = ret.filter((a) => a.lock.toString() == filterMap.lock);
+  //   ret = ret.filter((a) => a.level <= filterMap.lvRange);
 
-    // TODO: action同步到store
-    // weightMapInUse = { ...weightMap };
+  //   // TODO: action同步到store
+  //   // weightMapInUse = { ...weightMap };
 
-    // update affix numbers
-    for (let a of ret) {
-      a.clear();
-      if (sortBy == "score") a.updateScore();
-      a.updateAffnum(weightMapInUse);
-    }
-    // sort
-    if (sortBy) {
-      // sort in descending order of affix number
-      ret.sort((a, b) => (b.data.affnum as any)[sortBy] - (a.data.affnum as any)[sortBy]);
-    } else {
-      // sort in ascending order of index
-      ret.sort((a, b) => a.data.index - b.data.index);
-    }
-    // update
-    setArtifactList(ret);
-  };
+  //   // update affix numbers
+  //   for (let a of ret) {
+  //     a.clear();
+  //     if (sortBy == "score") a.updateScore();
+  //     a.updateAffnum(weightMapInUse);
+  //   }
+  //   // sort
+  //   if (sortBy) {
+  //     // sort in descending order of affix number
+  //     ret.sort((a, b) => (b.data.affnum as any)[sortBy] - (a.data.affnum as any)[sortBy]);
+  //   } else {
+  //     // sort in ascending order of index
+  //     ret.sort((a, b) => a.data.index - b.data.index);
+  //   }
+  //   // update
+  //   setArtifactList(ret);
+  // };
 
-  const renderArtifact = () => artifactList.map((a, index) => <ArtifactCard key={index} {...a} />);
+  const renderArtifact = () =>
+    artifactList.map((a, index) => <ArtifactCard key={index} weightMap={weightMap} {...a} />);
 
   return (
     <Page>
@@ -104,9 +114,8 @@ const Artifact = (props: IProps) => {
             onFileUploaded={onFileUploaded}
             weightMap={weightMap}
             filterMap={filterMap}
-            weightMapInUse={weightMapInUse}
             artifactList={artifactList}
-            onFilterSubmit={onFilterSubmit}
+            // onFilterSubmit={onFilterSubmit}
           />
         </SideBar>
         <ArtifactList>
@@ -120,7 +129,6 @@ const Artifact = (props: IProps) => {
 const mapStateToProps = createStructuredSelector({
   weightMap: makeSelectWeightMap(),
   filterMap: makeSelectFilterMap(),
-  weightMapInUse: makeSelectWeightMapInUse(),
 });
 
 const withConnect = connect(mapStateToProps);

@@ -17,7 +17,7 @@ import {
   WeightButton,
   StartContainer,
 } from "./artifact-right.style";
-import { IArtifact } from "src/utils/mona.artifact";
+import { IArtifact } from "src/interface/genshin.type";
 
 const logProgress: string[] = [];
 
@@ -35,18 +35,15 @@ function validateFile(file: any): boolean {
 
 type IProps = {
   weightMap: any;
-  weightMapInUse: any;
   filterMap: any;
   artifactList: any[];
-  onFilterSubmit: (filterMap: any) => void;
   onFileUploaded: (artifactList: IArtifact[]) => void;
   updateWeightMap: (payload: { key: string; value: string }) => void;
   updateArtifacts: () => void;
 };
 
 const ArtifactRight = (props: IProps) => {
-  const { weightMap, weightMapInUse, filterMap, artifactList, onFileUploaded, updateWeightMap, updateArtifacts } =
-    props;
+  const { weightMap, filterMap, artifactList, onFileUploaded, updateWeightMap, updateArtifacts } = props;
 
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩

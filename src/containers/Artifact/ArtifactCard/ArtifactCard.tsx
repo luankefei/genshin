@@ -7,7 +7,13 @@ import data from "../../../utils/mona.data";
 import { Container, Header, Main } from "./artifact-card.style";
 import artifactDict from "src/utils/artifact.dict";
 
-const ArtifactCard = (props: IArtifact) => {
+type IProps = IArtifact & {
+  weightMap: any;
+};
+
+const ArtifactCard = (props: IProps) => {
+  const { weightMap } = props;
+
   const pieceName = () => {
     if (props.set in locale.set && props.slot in locale.slot) {
       const name = locale.set[props.set].name;
@@ -47,6 +53,8 @@ const ArtifactCard = (props: IArtifact) => {
   const renderMinors = () => {
     const affixName = (key: string) => {
       let name: string = locale.affix[key];
+
+      console.log("affixName", name, key);
       if (name.endsWith("%")) {
         name = name.substring(0, name.length - 1);
       }
@@ -54,17 +62,20 @@ const ArtifactCard = (props: IArtifact) => {
     };
 
     let ret = [];
+    const numberKeys = ["hp", "atk", "def", "em"];
+
+    // TODO: 这里和下面的map应该合并，顺便整理一下上面的变量定义
     for (let a of props.minors) {
       let name = affixName(a.key);
-      // TODO: 这里为了测试暂时禁用valueString
+      const valueString = numberKeys.includes(a.key) ? a.value : `${a.value}%`;
+
       ret.push({
-        // text: `· ${name}+${a.valueString()}`,
-        text: `· ${name}+${a.value}`,
-        // style: `opacity: ${store.state.weightInUse[a.key] > 0 ? 1 : 0.5};`,
+        text: `${name}+${valueString}`,
+        style: { opacity: weightMap[a.key] > 0 ? 1 : 0.5 },
       });
     }
     return ret.map((item) => (
-      <div key={item.text} className="minor-affix">
+      <div key={item.text} className="minor-affix" style={item.style}>
         {item.text}
       </div>
     ));

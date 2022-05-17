@@ -184,12 +184,6 @@ const FilterSection = (props: IProps) => {
   );
 };
 
-// }const mapStateToProps = createStructuredSelector({
-//   weightMap: makeSelectWeightMap(),
-//   filterMap: makeSelectFilterMap(),
-//   weightMapInUse: makeSelectWeightMapInUse(),
-// });
-
 const withConnect = connect(null, {
   updateFilterMap: actions.updateFilterMap,
 });
