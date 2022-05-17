@@ -79,14 +79,11 @@ const ArtifactRight = (props: IProps) => {
       return;
     }
 
-    console.log("合法的we你按");
-
     const artifacts = await monaFileToArtifacts(file).catch((err) => {
       log.send("file_change_error", {
         err: JSON.stringify(err),
       });
     });
-    console.log("monaFileToArtifacts", artifacts);
 
     if (artifacts && artifacts.length) {
       onFileUploaded(artifacts);

@@ -245,8 +245,6 @@ function updateAffnum(w: { [key: string]: number }) {
     astar_key = argmin(w, A) as string;
     this.data.affnum.min = this.data.affnum.cur + (n * w[astar_key] * 0.7) / 0.85;
   }
-
-  console.log("计算 affnums", this.data.affnum);
 }
 
 const updateArtifacts = (state: IState) => {
@@ -254,6 +252,8 @@ const updateArtifacts = (state: IState) => {
   // state.loading = true;
 
   let ret = state.artifacts.slice();
+
+  console.log("updateArtifacts", ret.length);
 
   // filter
   // basic filter
@@ -267,7 +267,7 @@ const updateArtifacts = (state: IState) => {
   // weight
   // const weightInUseObj = state.useWeightJson ? JSON.parse(state.weightJson) : { ...state.weight };
   const weightMapObj = JSON.parse(JSON.stringify(weightMap));
-  console.log("weightInUse", weightMap, weightMapObj, ret, filterMap);
+  // console.log("weightInUse", weightMap, weightMapObj, ret, filterMap);
 
   // update affix numbers
   for (let a of ret) {

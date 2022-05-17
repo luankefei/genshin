@@ -19,10 +19,11 @@ type IProps = {
   filterMap: any;
   artifactList: any[];
   createArtifacts: (payload: { artifacts: IArtifact[] }) => void;
+  updateArtifacts: () => void;
 };
 
 const Artifact = (props: IProps) => {
-  const { weightMap, filterMap, artifactList, createArtifacts } = props;
+  const { weightMap, filterMap, artifactList, createArtifacts, updateArtifacts } = props;
 
   // TODO: 排序暂未使用
   const [sortBy, setSortBy] = useState("avg");
@@ -39,6 +40,7 @@ const Artifact = (props: IProps) => {
 
   const onFileUploaded = (list: IArtifact[]) => {
     createArtifacts({ artifacts: list });
+    updateArtifacts();
   };
 
   const renderArtifact = () =>
@@ -71,6 +73,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
   createArtifacts: actions.createArtifacts,
+  updateArtifacts: actions.updateArtifacts,
 };
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

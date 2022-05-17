@@ -55,7 +55,7 @@ const ArtifactCard = (props: IProps) => {
     const affixName = (key: string) => {
       let name: string = locale.affix[key];
 
-      console.log("affixName", name, key);
+      // console.log("affixName", name, key);
       if (name.endsWith("%")) {
         name = name.substring(0, name.length - 1);
       }
