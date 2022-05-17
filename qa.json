@@ -1,0 +1,21 @@
+{
+  "apps": [{
+    "name": "checkin.qa.8848",
+    "script": "./server/index.js",
+    "node_args": "--harmony",
+    "log_date_format": "YY-MM-DD HH:mm:ss.S",
+    "out_file": "logs/out.log",
+    "error_file": "logs/error.log",
+    "log_file": "logs/combined.outerr.log",
+    "watch": false,
+    "ignore_watch": ["[\\/\\\\]\\./", "\\.git/**", "node_modules", "logs", "static", "*\\.log", "*\\.out"],
+    "restart_delay": 1000,
+    "exec_mode": "fork",
+    "env": {
+      "NODE_ENV": "development",
+      "MODE": "dev",
+      "CDN": false,
+      "PORT": 8848
+    }
+  }]
+}
