@@ -2,7 +2,8 @@
   "apps": [
     {
       "name": "genshin.pre.8848",
-      "script": "./server/index.js",
+      "script": "npm",
+      "args": "start",
       "max_memory_restart": "500M",
       "node_args": "--harmony",
       "log_date_format": "YY-MM-DD HH:mm:ss.S",
