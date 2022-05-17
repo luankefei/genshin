@@ -54,8 +54,6 @@ const ArtifactRight = (props: IProps) => {
     updateArtifacts,
   } = props;
 
-  console.log("发生了什么", artifactList.length, artifactListBackup.length);
-
   const monaFileToArtifacts = (file: any): Promise<any> => {
     // 2019.08.27 不再执行压缩
     return new Promise((resolve) => {
