@@ -67,6 +67,7 @@ const Artifact = (props: IProps) => {
   // })
 
   const onFileUploaded = (list: IArtifact[]) => {
+    console.log("=------------------ onFileUploaded", list);
     setArtifactList(list);
   };
 

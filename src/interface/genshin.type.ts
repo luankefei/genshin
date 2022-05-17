@@ -1,3 +1,5 @@
+import { Affix } from "../utils/mona.artifact";
+
 export interface IWeapon {
   id: string;
   name: string;
@@ -36,27 +38,9 @@ export interface ICharacter {
   update?: string;
 }
 
-interface IAffix {
+export interface IAffix {
   key: string;
   value: number;
-}
-
-export class Affix implements IAffix {
-  key = "";
-  value = 0;
-  constructor(obj?: any) {
-    if (obj) {
-      this.key = obj.key;
-      this.value = obj.value;
-    }
-  }
-  valueString() {
-    if (["hp", "atk", "def", "em"].includes(this.key)) {
-      return this.value.toFixed(0);
-    } else {
-      return this.value.toFixed(1) + "%";
-    }
-  }
 }
 
 export interface IArtifact {

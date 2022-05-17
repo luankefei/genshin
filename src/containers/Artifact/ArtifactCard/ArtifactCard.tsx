@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { IArtifact, Affix } from "../../../interface/genshin.type";
+import { IArtifact } from "../../../interface/genshin.type";
+import { Affix } from "src/utils/mona.artifact";
 import locale from "../../../utils/locale.chs";
 import data from "../../../utils/mona.data";
 

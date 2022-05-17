@@ -59,10 +59,11 @@ const ArtifactRight = (props: IProps) => {
         return artifacts;
       })
       .catch((err: any) => {
-        log.send("file_change_error", {
-          err: JSON.stringify(err),
-          p: logProgress.join(","),
-        });
+        console.error("file_change_error", err);
+        // log.send("file_change_error", {
+        //   err: JSON.stringify(err),
+        //   p: logProgress.join(","),
+        // });
       });
   };
 
@@ -78,11 +79,14 @@ const ArtifactRight = (props: IProps) => {
       return;
     }
 
+    console.log("合法的we你按");
+
     const artifacts = await monaFileToArtifacts(file).catch((err) => {
       log.send("file_change_error", {
         err: JSON.stringify(err),
       });
     });
+    console.log("monaFileToArtifacts", artifacts);
 
     if (artifacts && artifacts.length) {
       onFileUploaded(artifacts);
