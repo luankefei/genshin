@@ -129,7 +129,7 @@ const ArtifactRight = (props: IProps) => {
           <label htmlFor="select-file">
             <span className="button">导入</span>
           </label>
-          <UploadMessage>成功导入638个5星圣遗物</UploadMessage>
+          <UploadMessage>共导入{artifactList.length}个5星圣遗物</UploadMessage>
         </SectionContent>
 
         <input id="select-file" type="file" onChange={fileChange} accept=".json" />

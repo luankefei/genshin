@@ -9,45 +9,45 @@ const UPDATE_WEIGHT_MAP = "artifact/UPDATE_WEIGHT_MAP";
 const UPDATE_ARTIFACTS = "artifact/UPDATE_ARTIFACTS";
 // const UPDATE_WEIGHT_MAP_SUCCESS = "artifact/UPDATE_WEIGHT_MAP_SUCCESS";
 
-const facts = [
-  {
-    set: "EchoesOfAnOffering",
-    slot: "flower",
-    rarity: 5,
-    level: 20,
-    lock: false,
-    location: "",
-    mainKey: "hp",
-    minors: [
-      { key: "cr", value: 10.5 },
-      { key: "er", value: 11.7 },
-      { key: "hpp", value: 4.1 },
-      { key: "atkp", value: 8.7 },
-    ],
-    data: { index: 0, affnum: { cur: 0, avg: 0, min: 0, max: 0 }, lock: false },
-  },
-  {
-    set: "OceanHuedClam",
-    slot: "flower",
-    rarity: 5,
-    level: 20,
-    lock: false,
-    location: "",
-    mainKey: "hp",
-    minors: [
-      { key: "er", value: 17.5 },
-      { key: "atk", value: 16 },
-      { key: "atkp", value: 15.2 },
-      { key: "hpp", value: 5.3 },
-    ],
-    data: { index: 1, affnum: { cur: 0, avg: 0, min: 0, max: 0 }, lock: false },
-  },
-];
+// const facts = [
+//   {
+//     set: "EchoesOfAnOffering",
+//     slot: "flower",
+//     rarity: 5,
+//     level: 20,
+//     lock: false,
+//     location: "",
+//     mainKey: "hp",
+//     minors: [
+//       { key: "cr", value: 10.5 },
+//       { key: "er", value: 11.7 },
+//       { key: "hpp", value: 4.1 },
+//       { key: "atkp", value: 8.7 },
+//     ],
+//     data: { index: 0, affnum: { cur: 0, avg: 0, min: 0, max: 0 }, lock: false },
+//   },
+//   {
+//     set: "OceanHuedClam",
+//     slot: "flower",
+//     rarity: 5,
+//     level: 20,
+//     lock: false,
+//     location: "",
+//     mainKey: "hp",
+//     minors: [
+//       { key: "er", value: 17.5 },
+//       { key: "atk", value: 16 },
+//       { key: "atkp", value: 15.2 },
+//       { key: "hpp", value: 5.3 },
+//     ],
+//     data: { index: 1, affnum: { cur: 0, avg: 0, min: 0, max: 0 }, lock: false },
+//   },
+// ];
 
 type IState = any;
 
 const initialState = {
-  artifacts: facts,
+  artifacts: [],
 
   filteredArtifacts: [],
   filterMap: {
@@ -59,6 +59,7 @@ const initialState = {
     lvRange: 0,
   },
   weightMap: { hp: 0, atk: 0, def: 0, hpp: 0, atkp: 0.5, defp: 0, em: 0.5, er: 0.5, cr: 1, cd: 1 },
+  sortBy: "avg",
 };
 
 function updateWeightMap(state: IState, action: AnyAction) {
