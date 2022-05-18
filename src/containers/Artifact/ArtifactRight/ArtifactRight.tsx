@@ -135,7 +135,9 @@ const ArtifactRight = (props: IProps) => {
     <Container>
       <Uploader>
         <SectionTitle title="导入">
-          <span data-click="openTutorial">教程</span>
+          <a href="https://ideless.github.io/artifact/tutorial/" target="blank">
+            教程
+          </a>
         </SectionTitle>
         <SectionContent>
           <label htmlFor="select-file">

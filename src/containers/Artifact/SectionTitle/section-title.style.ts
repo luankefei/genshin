@@ -18,6 +18,7 @@ export const Container = styled.div`
       cursor: pointer;
       font-size: 12px;
       margin-left: 10px;
+      text-decoration: none;
 
       &:hover {
         text-decoration: underline;
