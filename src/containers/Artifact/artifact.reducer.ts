@@ -282,7 +282,8 @@ const updateArtifacts = (state: IState) => {
   // basic filter
   if (filterMap.set) ret = ret.filter((a) => a.set == filterMap.set);
   if (filterMap.slot) ret = ret.filter((a) => a.slot == filterMap.slot);
-  if (filterMap.main) ret = ret.filter((a) => a.mainKey == filterMap.main);
+  if (filterMap.mainKey)
+    ret = ret.filter((a) => a.mainKey == filterMap.mainKey);
   if (filterMap.location != "all")
     ret = ret.filter((a) => a.location == filterMap.location);
   if (filterMap.lock)

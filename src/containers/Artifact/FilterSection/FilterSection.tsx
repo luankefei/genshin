@@ -98,6 +98,8 @@ const FilterSection = (props: IProps) => {
   };
 
   const onFilterChange = (key: string) => (value: string | number) => {
+    console.log("onFilterChange", key, value);
+
     // 注意这里直接修改filterMap会导致组件不刷新
     const obj = JSON.parse(JSON.stringify(filterMap));
     obj[key] = value === "*" ? "" : value;
