@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import RangeSlider from "react-rangeslider";
@@ -93,9 +93,13 @@ const FilterSection = (props: IProps) => {
 
     // restore
     restoreToOptionList(dict, names);
-
     setFilterOptionsMap(dict as any);
   };
+
+  const memorizedFilterCallback = useCallback(
+    (key: string) => onFilterChange(key),
+    [filterMap]
+  );
 
   const onFilterChange = (key: string) => (value: string | number) => {
     console.log("onFilterChange", key, value);
@@ -112,14 +116,7 @@ const FilterSection = (props: IProps) => {
 
   return (
     <Container>
-      <SectionTitle title="筛选">
-        {/* <span data-show="store.state.useFilterPro" data-click="useFilterPro(false)">
-            基本
-          </span>
-          <span data-show="!store.state.useFilterPro" data-click="useFilterPro(true)">
-            高级
-          </span> */}
-      </SectionTitle>
+      <SectionTitle title="筛选"></SectionTitle>
       <SectionContent data-show="!store.state.useFilterPro">
         <Filter className="filter">
           <FilterTitle>套装：</FilterTitle>
@@ -128,7 +125,7 @@ const FilterSection = (props: IProps) => {
               value={filterMap.set}
               options={filterOptionsMap.set}
               localeKey="set"
-              onSelect={onFilterChange("set")}
+              onSelect={memorizedFilterCallback("set")}
             />
           </FilterDetail>
         </Filter>
@@ -139,7 +136,7 @@ const FilterSection = (props: IProps) => {
               value={filterMap.slot}
               options={filterOptionsMap.slot}
               localeKey="slot"
-              onSelect={onFilterChange("slot")}
+              onSelect={memorizedFilterCallback("slot")}
             />
           </FilterDetail>
         </Filter>
@@ -150,7 +147,7 @@ const FilterSection = (props: IProps) => {
               value={filterMap.mainKey}
               options={filterOptionsMap.mainKey}
               localeKey="affix"
-              onSelect={onFilterChange("mainKey")}
+              onSelect={memorizedFilterCallback("mainKey")}
               data-className="filter-ctrl"
               data-items="store.getters.filterMains"
               data-model-value="store.filterMap.main"
@@ -166,16 +163,10 @@ const FilterSection = (props: IProps) => {
               max={20}
               value={filterMap.lvRange}
               orientation="horizontal"
-              onChange={onFilterChange("lvRange")}
+              onChange={memorizedFilterCallback("lvRange")}
             />
             <span>{filterMap.lvRange}</span>
           </FilterDetail>
-          {/* <div
-            range-slider
-            className="filter-ctrl"
-            data-model-value="store.filterMap.lvRange"
-            data-update-model-value="setFilter('lvRange', $event)"
-          /> */}
         </Filter>
       </SectionContent>
     </Container>
