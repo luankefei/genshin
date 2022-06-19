@@ -288,7 +288,7 @@ const updateArtifacts = (state: IState) => {
     ret = ret.filter((a) => a.location == filterMap.location);
   if (filterMap.lock)
     ret = ret.filter((a) => a.lock.toString() == filterMap.lock);
-  ret = ret.filter((a) => filterMap.lvRange <= a.level);
+  ret = ret.filter((a) => filterMap.lvRange >= a.level);
 
   // weight
   const weightMapObj = JSON.parse(JSON.stringify(weightMap));
@@ -300,16 +300,16 @@ const updateArtifacts = (state: IState) => {
   }
 
   // sort in descending order of score
-  if (state.sortBy == "score") ret.sort((a, b) => b.data.score - a.data.score);
-  // sort in descending order of affix number
-  else if (state.sortBy)
-    ret.sort(
-      (a, b) =>
-        (b.data.affnum as any)[state.sortBy] -
-        (a.data.affnum as any)[state.sortBy]
-    );
-  // sort in ascending order of index
-  else ret.sort((a, b) => a.data.index - b.data.index);
+  // if (state.sortBy == "score") ret.sort((a, b) => b.data.score - a.data.score);
+  // // sort in descending order of affix number
+  // else if (state.sortBy)
+  //   ret.sort(
+  //     (a, b) =>
+  //       (b.data.affnum as any)[state.sortBy] -
+  //       (a.data.affnum as any)[state.sortBy]
+  //   );
+  // // sort in ascending order of index
+  // else ret.sort((a, b) => a.data.index - b.data.index);
 
   // update
   return {

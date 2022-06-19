@@ -131,6 +131,29 @@ const ArtifactRight = (props: IProps) => {
     updateArtifacts();
   };
 
+  const clickDyeing = () => {
+    const nodes: HTMLSpanElement[] = document.querySelectorAll(
+      ".avg-an"
+    ) as any;
+    const n = nodes.length;
+    for (let i = 0; i < n; i++) {
+      const text = nodes[i].innerText.replace("期望", "");
+      const affixs =
+        nodes[i].parentNode.parentNode.querySelectorAll(".minor-affix");
+      const hasBao = Array.prototype.find.call(
+        affixs,
+        (item) => item.innerText.indexOf("暴击") !== -1
+      );
+
+      console.log("hasBao", hasBao, nodes[i].innerText);
+      const score = parseFloat(text);
+      if ((score <= 3 && affixs.length === 4) || (!hasBao && score < 4))
+        nodes[i].style.background = "#000";
+      // reset
+      else nodes[i].style.background = "#2a82e4";
+    }
+  };
+
   return (
     <Container>
       <Uploader>
@@ -143,6 +166,9 @@ const ArtifactRight = (props: IProps) => {
           <label htmlFor="select-file">
             <span className="button">导入</span>
           </label>
+          <button className="button btn-hollow" onClick={clickDyeing}>
+            染色
+          </button>
           <UploadMessage>共{artifactList.length}个5星圣遗物</UploadMessage>
         </SectionContent>
 

@@ -37,6 +37,14 @@ const sectionContent = `
     cursor: pointer;
     user-select: none;
     display: inline-block;
+    vertical-align: top;
+    margin-right: 12px;
+  }
+
+  .btn-hollow {
+    background: transparent;
+    border: 1px solid #3694ff;
+    color: #3694ff;
   }
 `;
 
