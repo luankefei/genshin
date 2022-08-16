@@ -131,6 +131,7 @@ const ArtifactRight = (props: IProps) => {
     updateArtifacts();
   };
 
+  // 染色规则
   const clickDyeing = () => {
     const nodes: HTMLSpanElement[] = document.querySelectorAll(
       ".avg-an"
@@ -147,8 +148,18 @@ const ArtifactRight = (props: IProps) => {
 
       console.log("hasBao", hasBao, nodes[i].innerText);
       const score = parseFloat(text);
-      if ((score <= 3 && affixs.length === 4) || (!hasBao && score < 4))
-        nodes[i].style.background = "#000";
+
+      // 4 词条评分小于 4
+      const isBadFour = score <= 4.0 && affixs.length === 4;
+
+      // 无双爆，评分小于 5
+      const isNoBao = !hasBao && score < 5;
+
+      // 有暴，评分小于 4
+      const isBadBao = hasBao && score < 4;
+
+      // 染色
+      if (isBadFour || isNoBao || isBadBao) nodes[i].style.background = "#000";
       // reset
       else nodes[i].style.background = "#2a82e4";
     }
